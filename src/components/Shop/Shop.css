@@ -1,0 +1,72 @@
+/*=============== NEW ===============*/
+.new__card {
+  display: flex;
+  align-items:first center;
+  flex-direction: column;
+  /* justify-content: ; */
+  column-gap: 2.5rem;
+  padding: 1.5rem 1rem;
+  color: var(--text-color);
+  border: 2px solid var(--border-color);
+  background-color: var(--container-color);
+  transition: border 0.4s, background-color 0.4s;
+}
+.new__card:hover {
+  border: 2px solid var(--text-color);
+}
+.new__img {
+  width: 100px;
+}
+.new__title {
+  font-size: var(--h2-font-size);
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+.add-card {
+    width: 90%;
+    text-align: center;
+}
+.new__prices {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  column-gap: 0.75rem;
+ 
+}
+
+.new__discount {
+  color: var(--title-color);
+}
+.new__price {
+  font-size: var(--small-font-size);
+  text-decoration: line-through;
+}
+.new__starts {
+  color: var(--first-color);
+  text-align: center;
+  margin-bottom: 2rem;
+
+}
+.new__swiper:nth-child(1) {
+  margin-bottom: 2rem;
+}
+.button {
+    margin: 0 auto;
+}
+
+
+.swiper-button-next,
+.swiper-button-prev {
+    color: #000; /* Customize the color of the buttons */
+    width: 30px;
+    height: 30px;
+}
+
+/* Position the buttons */
+.swiper-button-next {
+    right: 10px;
+}
+
+.swiper-button-prev {
+    left: 10px;
+}

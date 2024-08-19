@@ -1,0 +1,161 @@
+/*=============== HOME ===============*/
+.home__swiper {
+  margin: initial;
+}
+
+.home__container {
+  padding-top: 2rem;
+  row-gap: 2.5rem;
+}
+
+.home__data {
+  text-align: center;
+}
+
+.home__title {
+  font-size: var(--biggest-font-size);
+  margin-bottom: 1rem;
+}
+
+.home__description {
+  margin-bottom: 2rem;
+}
+
+.home__images {
+  display: grid;
+}
+
+.home__article,
+.home__image {
+  width: 220px;
+  transition: transform 0.4s; /* Corrected to use transform */
+}
+
+.home__article {
+  transform: scale(0.8); /* Corrected to use transform */
+}
+
+/* Swiper class */
+.swiper-slide-active,
+.swiper-slide-duplicate-active {
+  transform: scale(1); /* Corrected to use transform */
+}
+
+/* .swiper-slide {
+  flex-shrink: 0;
+  width: 80% !important;
+  height: 100%;
+  position: relative;
+  transition-property: transform;
+  display: block;
+   */
+
+/* } */
+/*=============== SERVICES ===============*/
+.services__container {
+  row-gap: 3rem;
+    
+
+}
+.services__card {
+  text-align: center;
+}
+.services__card i {
+  display: block;
+  font-size: 3rem;
+  color: var(--first-color);
+  margin-bottom: 1rem;
+
+}
+.services__title {
+  font-size: var(--h3-font-size);
+  margin-bottom: .5rem;
+}
+
+
+
+@media screen and (min-width: 768px) { 
+  .services__container {
+    grid-template-columns: repeat(3, max-content);
+    justify-content: center;
+    column-gap: 7rem !important;
+  }
+  .services__container {
+    column-gap: 10rem;
+  }
+  .services__card i {
+    font-size: 3.5rem;
+  }
+}
+
+/*=============== JOIN ===============*/
+.join__container {
+  position: relative;
+  padding-block: 3rem;
+}
+
+.join__bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.join__data {
+  position: relative;
+  
+}
+.join__title {
+  color: var(--white-color);
+}
+.join__form {
+  display: grid;
+  row-gap: 1rem;
+}
+.join__input {
+  
+  padding: 1.25rem 1rem;
+  background-color: var(--body-color);
+  color: var(--title-color);
+  transition: background-color .4s;
+  border-radius: .5rem;
+}
+.join__input::placeholder {
+  color: var(--title-color);
+}
+.join__button {
+  padding-block: 1.25rem;
+  cursor: pointer;
+}
+
+
+ 
+
+@media screen and (min-width: 1200px) {
+  .container {
+    margin-inline: auto;
+  }
+  .home__container {
+    grid-template-columns: 435px 745px;
+    align-items: center;
+    padding-block: 7rem 2rem;
+  }
+  .home__data {
+    text-align: initial;
+  }
+  .home__description {
+    margin-bottom: 4rem;
+  }
+  .home__article,
+  .home__img {
+    width: 290px;
+  }
+}
+
+
+@media screen and (max-width: 600px) { 
+
+}
+ 
