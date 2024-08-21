@@ -3,15 +3,24 @@ import LI from "./Header/LI";
 import "./Header/Header.css";
 import Footer from "../components/Footer";
 
+import { authActions } from '../store/auth';
+
+import { useSelector, useDispatch } from 'react-redux';
+
 
 function RootPage() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const isAuth = useSelector(state => state.auth.isAuthenticated);
 
   const handleLoginClick = () => {
-    navigate("/login");
+    navigate("/user");
   };
+  function handleLogot() {
+    dispatch(authActions.logout());
+  }
 
-  
+
 
   return (
     <>
@@ -48,6 +57,12 @@ function RootPage() {
                     onClick={handleLoginClick}
                 />
                 
+                {isAuth && ( <i
+                    className="ri-logout-box-line"
+                    id="logout-btn"
+                    onClick={handleLogot}
+                />
+                )}
                 {/* theme button */}
                 <i className="ri-moon-line change-theme" id="theme-button" />
             </div>

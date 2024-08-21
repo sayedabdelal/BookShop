@@ -70,3 +70,25 @@
 .swiper-button-prev {
     left: 10px;
 }
+
+.featured__actions {
+  display: inline-flex;
+  flex-direction: column;
+  row-gap: .75rem;
+  position: absolute;
+  top: 2rem;
+  right: -1.5rem;
+  visibility: hidden;
+  transition: right .4s;
+}
+.featured__actions button {
+  background: none;
+  font-size: 1.25rem;
+  color: var(--first-color);
+  cursor: pointer;
+}
+
+.new__card:hover .featured__actions{
+  right: 1.5rem;   
+  visibility: visible;
+}

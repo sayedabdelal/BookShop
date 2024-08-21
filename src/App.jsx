@@ -1,42 +1,43 @@
- 
-
 import {
   Navigate,
   RouterProvider,
   createBrowserRouter,
-} from 'react-router-dom';
-import RootPage from './pages/RootPage';
-import ErrorPage from './UI/ErrorPage';
-import LoginPage from './pages/AuthenticationPages/LoginPage';
-import SignupPage from './pages/AuthenticationPages/SignupPage';
-import PrivateRoute from './pages/AuthenticationPages/PrivateRoute';
-import UserPage from './pages/UserPage';
+} from "react-router-dom";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "./util/http.js";
+import RootPage from "./pages/RootPage";
+import ErrorPage from "./UI/ErrorPage";
+import LoginPage from "./pages/AuthenticationPages/LoginPage";
+import SignupPage from "./pages/AuthenticationPages/SignupPage";
+import PrivateRoute from "./pages/AuthenticationPages/PrivateRoute";
+import UserPage from "./pages/UserPage";
 // import Home from './components/Home/Home';
-import HomePage from './pages/HomePage';
-import DiscountPage from './pages/DiscountPage';
-import TestimonialPage from './pages/TestimonialPage';
-import ShopPage from './pages/ShopPage';
+import HomePage from "./pages/HomePage";
+import DiscountPage from "./pages/DiscountPage";
+import TestimonialPage from "./pages/TestimonialPage";
+import ShopPage from "./pages/ShopPage";
+import ShopDesPage from "./pages/ShopDesPage";
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <RootPage />,
     errorElement: <ErrorPage />,
     children: [
       {
-        path: '/',
-        element : <HomePage />
+        path: "/",
+        element: <HomePage />,
       },
       {
-        path: 'login',
+        path: "login",
         element: <LoginPage />,
       },
       {
-        path: 'signup',
+        path: "signup",
         element: <SignupPage />,
       },
       {
-        path: 'user', // This is the protected route
+        path: "user", // This is the protected route
         element: (
           <PrivateRoute>
             <UserPage />
@@ -44,40 +45,50 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: 'discount',
-        element: <DiscountPage />,  
+        path: "discount",
+        element: <DiscountPage />,
       },
       {
-        path: 'testimonial',
-        element: <TestimonialPage />,  
+        path: "testimonial",
+        element: <TestimonialPage />,
       },
       {
-        path: 'shop',
-        element: <ShopPage />,  
-      }
-      
+        path: "shop",
+        // element: <ShopPage />, // Main component for "/shop"
+        children: [
+          {
+            index: true, // This is the default route for "/shop"
+            element: <ShopPage />,
+          },
+          {
+            path: ":id", // Dynamic segment for shop description
+            element: <ShopDesPage/>,
+          }
+        ]
+      },
+
       // other routes...
     ],
   },
   // {
   //   path: 'discount',
-   
+
   //   errorElement: <ErrorPage />,
-  //   children : [ 
+  //   children : [
   //     {
   //       path: '',
   //       element: <HomePage />
   //     }
   //   ]
   // }
-
 ]);
-
 
 function App() {
   return (
-    <RouterProvider router={router} />
-  )
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
+  );
 }
 
-export default App
+export default App;

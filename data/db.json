@@ -1,0 +1,22 @@
+{
+  "users": [
+    {
+      "id": "1724146782395",
+      "email": "teest@test.com",
+      "password": "ssssss",
+      "cart": []
+    },
+    {
+      "id": "1724147577359",
+      "email": "test@test.com",
+      "password": "121111111111",
+      "cart": []
+    },
+    {
+      "id": "1724147775813",
+      "email": "d225ea0449@emailkom.live",
+      "password": "2222222222Q22222222s@",
+      "cart": []
+    }
+  ]
+}
