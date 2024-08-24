@@ -10,14 +10,14 @@ import NewImg9 from './assets/img/book-9.png';
 import NewImg10 from './assets/img/book-10.png';
 
 export const books = [
-    { id: 'e1', imgSrc: NewImg1, title: 'New Book', discountPrice: '$7.99', originalPrice: '$19.99', rating: 4.5 },
-    { id: 'e2', imgSrc: NewImg2, title: 'New Book', discountPrice: '$7.99', originalPrice: '$19.99', rating: 4.5 },
-    { id: 'e3', imgSrc: NewImg3, title: 'New Book', discountPrice: '$7.99', originalPrice: '$19.99', rating: 4.5 },
-    { id: 'e4', imgSrc: NewImg4, title: 'New Book', discountPrice: '$7.99', originalPrice: '$19.99', rating: 4.5 },
-    { id: 'e5', imgSrc: NewImg5, title: 'New Book', discountPrice: '$7.99', originalPrice: '$19.99', rating: 4.5 },
-    { id: 'e6', imgSrc: NewImg6, title: 'New Book', discountPrice: '$7.99', originalPrice: '$19.99', rating: 4.5 },
-    { id: 'e7', imgSrc: NewImg7, title: 'New Book', discountPrice: '$7.99', originalPrice: '$19.99', rating: 4.5 },
-    { id: 'e8', imgSrc: NewImg8, title: 'New Book', discountPrice: '$7.99', originalPrice: '$19.99', rating: 4.5 },
-    { id: 'e9', imgSrc: NewImg9, title: 'New Book', discountPrice: '$7.99', originalPrice: '$19.99', rating: 4.5 },
-    { id: 'e10', imgSrc: NewImg10, title: 'New Book', discountPrice: '$7.99', originalPrice: '$19.99', rating: 4.5 },
-  ];
+  { id: 'e1', imgSrc: NewImg1, title: 'New Book', description: 'This is a description for Book 1', discountPrice: '$7.99', originalPrice: '$19.99', rating: 4.5 },
+  { id: 'e2', imgSrc: NewImg2, title: 'New Book', description: 'This is a description for Book 2', discountPrice: '$7.99', originalPrice: '$19.99', rating: 4.5 },
+  { id: 'e3', imgSrc: NewImg3, title: 'New Book', description: 'This is a description for Book 3', discountPrice: '$7.99', originalPrice: '$19.99', rating: 4.5 },
+  { id: 'e4', imgSrc: NewImg4, title: 'New Book', description: 'This is a description for Book 4', discountPrice: '$7.99', originalPrice: '$19.99', rating: 4.5 },
+  { id: 'e5', imgSrc: NewImg5, title: 'New Book', description: 'This is a description for Book 5', discountPrice: '$7.99', originalPrice: '$19.99', rating: 4.5 },
+  { id: 'e6', imgSrc: NewImg6, title: 'New Book', description: 'This is a description for Book 6', discountPrice: '$7.99', originalPrice: '$19.99', rating: 4.5 },
+  { id: 'e7', imgSrc: NewImg7, title: 'New Book', description: 'This is a description for Book 7', discountPrice: '$7.99', originalPrice: '$19.99', rating: 4.5 },
+  { id: 'e8', imgSrc: NewImg8, title: 'New Book', description: 'This is a description for Book 8', discountPrice: '$7.99', originalPrice: '$19.99', rating: 4.5 },
+  { id: 'e9', imgSrc: NewImg9, title: 'New Book', description: 'This is a description for Book 9', discountPrice: '$7.99', originalPrice: '$19.99', rating: 4.5 },
+  { id: 'e10', imgSrc: NewImg10, title: 'New Book', description: 'This is a description for Book 10', discountPrice: '$7.99', originalPrice: '$19.99', rating: 4.5 },
+];
