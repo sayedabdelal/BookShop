@@ -36,6 +36,7 @@
     .testimonial__container {
         padding-top: 2rem;
         
+        
       }
       .testimonial__card {
         padding-inline: 2;
@@ -48,3 +49,10 @@
       }
     
 }
+
+@media screen and  (min-width: 400px)  and (max-width: 1200px){ 
+  .testimonial__container { 
+    width: 400px !important;
+    margin: 0 auto !important;
+  }
+} 

@@ -45,12 +45,7 @@ function SignupPage() {
     } else if (!/[a-z]/.test(data.password)) {
       formErrors.password =
         "Password must contain at least one lowercase letter";
-    } else if (!/[0-9]/.test(data.password)) {
-      formErrors.password = "Password must contain at least one number";
-    } else if (!/[!@#$%^&*]/.test(data.password)) {
-      formErrors.password =
-        "Password must contain at least one special character";
-    }
+    }  
     return formErrors;
   }
 

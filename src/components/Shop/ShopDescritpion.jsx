@@ -1,6 +1,6 @@
 import React from 'react'
 import {  useParams } from 'react-router-dom'
-import NewImg1 from '../../assets/img/book-1.png';
+import NewImg1 from '../../assets/img/discount-book-2.png';
 import './ShopDescritpion.css'
 export default function ShopDescritpion() {
    

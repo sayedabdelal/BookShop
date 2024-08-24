@@ -2,7 +2,7 @@ import { QueryClient } from '@tanstack/react-query';
 
 export const queryClient = new QueryClient();
 
-export async function NewUser({ id, email, password }) {
+export  async function NewUser({ id, email, password }) {
     try {
       const response = await fetch('http://localhost:3001/users', {
         method: 'POST',
@@ -34,6 +34,15 @@ export async function NewUser({ id, email, password }) {
 
 export async function fetchUsers() { 
     const data = await fetch('http://localhost:3001/users');
+
+    if (!data.ok) {
+        throw new Error(`HTTP error! status: ${data.status}`);
+    }
+    return data.json();
+}
+
+export  async  function fetchBooks() {
+    const data = await fetch('http://localhost:3001/books');
 
     if (!data.ok) {
         throw new Error(`HTTP error! status: ${data.status}`);

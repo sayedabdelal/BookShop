@@ -18,6 +18,8 @@ function RootPage() {
   };
   function handleLogot() {
     dispatch(authActions.logout());
+    // Remove the isAuth value from local storage
+    localStorage.removeItem('isAuthenticated');
   }
 
 

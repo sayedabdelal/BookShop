@@ -10,7 +10,7 @@ function BookCard({ imgSrc, title, discountPrice, originalPrice, rating, shopId 
     }   
   return (
     <a  onClick={handleClick} className="new__card swiper-slide">
-        <img src={imgSrc} alt="Book" className="new__img" />
+      <img src={`/${imgSrc}`} alt={title} className="new__img" />
         <div className='add-card'>
         <h3 className="new__title">{title}</h3>
         <div className="new__prices">

@@ -147,11 +147,16 @@ body.dark-theme {
 
 
 /*=============== REUSABLE CSS CLASSES ===============*/
-.container {
+/* .container {
   max-width: 1220px;
   margin-inline: 1.5rem;
-}
+  margin: 0 auto;
+} */
 
+.container {
+  max-width: calc(100% - 3rem); /* Adjust the max-width to account for inline margins */
+  margin-inline: 1.5rem; /* Sets the left and right margins */
+}
 .grid {
   display: grid;
   gap: 1.5rem;
@@ -222,7 +227,8 @@ body.dark-theme {
   position: relative;
   width: 80px;
   height: 80px;
-  margin: 1rem 0;
+  margin: 15rem auto;
+ 
 }
 .lds-ring div {
   box-sizing: border-box;
@@ -235,6 +241,7 @@ body.dark-theme {
   border-radius: 50%;
   animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
   border-color: #e30d5b transparent transparent transparent;
+  
 }
 .lds-ring div:nth-child(1) {
   animation-delay: -0.45s;
@@ -327,3 +334,14 @@ body.dark-theme {
   background-color: hsl(230, 16%, 55%);
 }
 
+
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 9;
+}
