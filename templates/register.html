@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>register</title>
+</head>
+
+<body>
+    <h1>Welcome To Register Page</h1>
+    <form action="{{ url_for('signup') }}" method="post">
+
+
+    <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input
+            type="text"
+            class="form-control"
+            id="firstName"
+            name="fname"
+            placeholder="Write An First Name" />
+    </div>
+    <div class="form-group">
+        <label for="lasttName">Last Name</label>
+        <input
+            type="text"
+            class="form-control"
+            id="lasttName"
+            name="lname"
+            placeholder="Write An Last Name" />
+    </div>
+    <div class="form-group">
+        <label for="username">User Name</label>
+        <input
+            type="text"
+            class="form-control"
+            id="UserName"
+            name="username"
+            placeholder="Write An User Name" />
+    </div>
+    <div class="form-group">
+        <label for="email">Email Address</label>
+        <input
+            type="email"
+            class="form-control"
+            id="email"
+            name="email"
+            placeholder="Write An Email" />
+    </div>
+    <div class="form-group">
+        <label for="password1">Password</label>
+        <input
+            type="password"
+            class="form-control"
+            id="password1"
+            name="password1"
+            placeholder="Write An First Password" />
+    </div>
+    <div class="form-group">
+        <label for="password2">Password (Confirm)</label>
+        <input
+            type="password"
+            class="form-control"
+            id="password2"
+            name="password2"
+            placeholder="Confirm the  Password" />
+    </div>
+    <br>
+    <button type="submit">Submit</button>
+    </form>
+    <br>
+    <a href="{{url_for('login')}}">Login</a>
+    <a href="{{url_for('landing')}}" style="margin-left: 30px;">Back</a>
+</body>
+
+</html>
