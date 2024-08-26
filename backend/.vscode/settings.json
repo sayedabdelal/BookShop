@@ -1,0 +1,10 @@
+{
+  "cSpell.words": [
+    "checkpw",
+    "gensalt",
+    "hashpw",
+    "jsonify",
+    "onupdate",
+    "SQLALCHEMY"
+  ]
+}
