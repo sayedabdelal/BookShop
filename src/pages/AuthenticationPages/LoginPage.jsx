@@ -14,10 +14,10 @@ function LoginPage() {
   const dispatch = useDispatch();
 
   // Fetch existing users
-  const { data: users = [] } = useQuery({
-    queryKey: ["users"],
-    queryFn: fetchUsers,
-  });
+  // const { data: users = [] } = useQuery({
+  //   queryKey: ["users"],
+  //   queryFn: fetchUsers,
+  // });
 
   function validateLogin(data) {
     let formErrors = {};
@@ -44,14 +44,14 @@ function LoginPage() {
       return;
     }
 
-    // Check if email and password match any user
-    const user = users.find(
-      (user) => user.email === data.email && user.password === data.password
-    );
-    if (!user) {
-      setErrors({ email: "Invalid email or password" });
-      return;
-    }
+    // // Check if email and password match any user
+    // const user = users.find(
+    //   (user) => user.email === data.email && user.password === data.password
+    // );
+    // if (!user) {
+    //   setErrors({ email: "Invalid email or password" });
+    //   return;
+    // }
     dispatch(authActions.login());
     // If successful, navigate to the user's page
     navigate("/user");

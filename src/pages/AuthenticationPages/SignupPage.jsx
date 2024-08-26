@@ -13,10 +13,10 @@ function SignupPage() {
   const navigate = useNavigate();
 
   // Fetch existing users
-  const { data: users = [] } = useQuery({
-    queryKey: ["users"],
-    queryFn: fetchUsers,
-  });
+  // const { data: users = [] } = useQuery({
+  //   queryKey: ["users"],
+  //   queryFn: fetchUsers,
+  // });
 
   const { mutate, isLoading, isError, error } = useMutation({
     mutationFn: NewUser,
@@ -37,15 +37,9 @@ function SignupPage() {
     }
     if (!data.password) {
       formErrors.password = "Password is required";
-    } else if (data.password.length < 8) {
+    } else if (data.password.length < 6) {
       formErrors.password = "Password must be at least 8 characters long";
-    } else if (!/[A-Z]/.test(data.password)) {
-      formErrors.password =
-        "Password must contain at least one uppercase letter";
-    } else if (!/[a-z]/.test(data.password)) {
-      formErrors.password =
-        "Password must contain at least one lowercase letter";
-    }  
+    } 
     return formErrors;
   }
 
@@ -65,15 +59,16 @@ function SignupPage() {
     }
 
     // Check if email already exists
-    const emailExists = users.some((user) => user.email === formData.email);
-    if (emailExists) {
-      setErrors({ email: "Email is already registered" });
-      return;
-    }
+    // const emailExists = users.some((user) => user.email === formData.email);
+    // if (emailExists) {
+    //   setErrors({ email: "Email is already registered" });
+    //   return;
+    // }
 
     // Send data to the server
     mutate({
-      id: Date.now().toString(), // Assign a unique ID
+      // id: Date.now().toString(), // Assign a unique ID
+      name: formData.name,
       email: formData.email,
       password: formData.password,
       cart: [], // Empty cart by default
