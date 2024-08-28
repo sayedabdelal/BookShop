@@ -4,7 +4,7 @@ import bcrypt
 
 register = Blueprint('register', __name__)
 
-@register.route('/register', methods=['POST'])
+@register.route('/register', methods=['POST', 'GET'])
 def register_view():
     data = request.form
     fname = data.get('name')
