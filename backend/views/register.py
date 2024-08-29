@@ -1,12 +1,15 @@
 from flask import Blueprint, request, jsonify
-from models.user_model import db, User
+# from models.user_model import db, User
+from backend import db
+from backend.models.user import User
 import bcrypt
 
 register = Blueprint('register', __name__)
 
-@register.route('/register', methods=['POST', 'GET'])
+
+@register.route('/register', methods=['POST'])
 def register_view():
-    data = request.form
+    data = request.get_json()
     fname = data.get('name')
     email = data.get('email')
     password1 = data.get('password')
@@ -17,11 +20,12 @@ def register_view():
     if User.query.filter_by(email=email).first():
         return jsonify({'error': 'Email already registered'}), 400
 
-    # Hash the password
-    hashed_password = bcrypt.hashpw(password1.encode('utf-8'), bcrypt.gensalt())
+    hashed_password = bcrypt.hashpw(password1.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
     
     new_user = User(fname=fname, email=email, password=hashed_password)
     db.session.add(new_user)
     db.session.commit()
 
-    return jsonify({'message': 'Registration successful! You can now log in.'}), 201
+    response = jsonify({'message': 'Registration successful! You can now log in.'})
+    # response.headers.add('Access-Control-Allow-Origin', '*')
+    return response, 201
