@@ -1,7 +1,6 @@
 from flask import Blueprint, jsonify, session
-# from models.user_model import User
-# from backend import db
 from backend.models.user import User
+
 
 dashboard = Blueprint('dashboard', __name__)
 

@@ -19,14 +19,18 @@ def create_app():
     from .views.logout import logout as logout_blueprint
     from .views.dashboard import dashboard as dashboard_blueprint
     from .views.home import home as home_blueprint
+    from .views.cart import cart as cart_blueprint
+    from .views.book import book as book_blueprint
+    from .views.category import category as category_blueprint
 
     app.register_blueprint(login_blueprint, url_prefix='/')
     app.register_blueprint(register_blueprint, url_prefix='/')
     app.register_blueprint(logout_blueprint, url_prefix='/')
     app.register_blueprint(dashboard_blueprint, url_prefix='/')
     app.register_blueprint(home_blueprint, url_prefix='/')
-
-    # from models.user_model import User
+    app.register_blueprint(cart_blueprint, url_prefix='/')
+    app.register_blueprint(book_blueprint, url_prefix='/')
+    app.register_blueprint(category_blueprint, url_prefix='/')
 
     with app.app_context():
         db.create_all()
