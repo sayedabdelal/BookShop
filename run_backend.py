@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 from backend import create_app
 
 app = create_app()
