@@ -17,6 +17,8 @@ import DiscountPage from "./pages/DiscountPage";
 import TestimonialPage from "./pages/TestimonialPage";
 import ShopPage from "./pages/ShopPage";
 import ShopDesPage from "./pages/ShopDesPage";
+import CartPage from "./pages/CartPage";
+import Wishlist from "./components/wishlist/Wishlist.jsx";
 
 const router = createBrowserRouter([
   {
@@ -61,11 +63,22 @@ const router = createBrowserRouter([
             element: <ShopPage />,
           },
           {
+            path: "cart",
+            element: <CartPage />,
+
+          },
+          {
+            path: "wishlist",
+            element: <Wishlist />,
+          },
+          {
             path: ":id", // Dynamic segment for shop description
             element: <ShopDesPage/>,
           }
+          
         ]
       },
+      
 
       // other routes...
     ],
