@@ -11,6 +11,8 @@ class Cart(db.Model):
     created_at = db.Column(db.DateTime(timezone=True), default=func.now())
     updated_at = db.Column(db.DateTime(timezone=True), onupdate=func.now())
     user = db.relationship('User', back_populates='carts')  # Use back_populates here
+    items = db.relationship('CartItems', backref='cart', lazy=True) # one to many
+
     # add quantity
 
     def __init__(self, total_price, status, user_id):
