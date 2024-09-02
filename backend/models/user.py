@@ -1,8 +1,10 @@
 from backend import db
 import bcrypt
+from uuid import uuid4
+
 
 class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String(32), primary_key=True, default=lambda: uuid4().hex)
     fname = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
