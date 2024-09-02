@@ -1,5 +1,6 @@
-from backend import db
+from backend import db, create_app
 from datetime import datetime
+import json
 
 
 class Book(db.Model):
@@ -32,9 +33,34 @@ class Book(db.Model):
             "stockQuantity": self.stock_quantity,
             "createdAt": self.created_at,
             "updatedAt": self.updated_at,
-            "category": self.category.name,
+            "category": self.category.name if self.category else None,
             "categoryId": self.category_id
         }
         return to_dict
 
 
+def load_book_data():
+    app = create_app()
+    with app.app_context():
+        with open('book_data.json', 'r') as file:
+            data = json.load(file)
+
+        # Clear existing data
+        db.session.query(Book).delete().all()
+
+        for item in data['books']:
+            new_book = Book(
+                title=item['title'],
+                author=item['author'],
+                image=item['image'],
+                price=item['price'],
+                discountPrice=item['discountPrice'],
+                description=item['description'],
+                rating=item['rating'],
+                stock_quantity=item['stockQuantity'],
+                created_at=datetime.strptime(item['createdAt'], '%Y-%m-%dT%H:%M:%S'),
+                updated_at=datetime.strptime(item['updatedAt'], '%Y-%m-%dT%H:%M:%S'),
+                category_id=item['categoryId']
+            )
+            db.session.add(new_book)
+        db.session.commit()
