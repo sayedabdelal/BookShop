@@ -276,9 +276,9 @@ body.dark-theme {
 
 .modal {
   margin: 0;
-  padding: 2rem;
+  padding: 1.5rem;
   position: fixed;
-  top: 10vh;
+  top: 17vh;
   left: calc(50% - 15rem);
   width: 30rem;
   max-height: 80vh;
@@ -344,4 +344,19 @@ body.dark-theme {
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.75);
   z-index: 9;
+}
+
+
+/* Mid media */
+ 
+
+/* modal mobile */
+
+@media (max-width: 476px) {
+  .modal {
+    left: calc(50% - 11rem);
+    padding: 1rem;
+    top: 15vh;
+    width: 23rem;
+  }
 }

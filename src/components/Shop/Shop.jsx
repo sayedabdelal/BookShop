@@ -17,6 +17,7 @@ function Shop() {
     queryKey: ["books"],
     queryFn: fetchBooks,
   });
+  
 
   if (isLoading) {
     return <LoadingIndicator />;
@@ -48,14 +49,15 @@ function Shop() {
           }}
         >
           {books.map((book) => (
-            <SwiperSlide key={book.id}>
+            <SwiperSlide key={book.categoryId}>
               <BookCard
-                imgSrc={book.imgSrc}
+                imgSrc={book.image}
                 title={book.title}
                 discountPrice={book.discountPrice}
-                originalPrice={book.originalPrice}
+                originalPrice={book.price}
                 rating={book.rating}
                 shopId={book.id}
+                shopDes={book.description}
               />
             </SwiperSlide>
           ))}
@@ -81,15 +83,16 @@ function Shop() {
           }}
         >
           {books.map((book) => (
-            <SwiperSlide key={book.id}>
-              <BookCard
-                imgSrc={book.imgSrc}
-                title={book.title}
-                discountPrice={book.discountPrice}
-                originalPrice={book.originalPrice}
-                rating={book.rating}
-                shopId={book.id}
-              />
+            <SwiperSlide key={book.categoryId+9}>
+            <BookCard
+              imgSrc={book.image}
+              title={book.title}
+              discountPrice={book.discountPrice}
+              originalPrice={book.price}
+              rating={book.rating}
+              shopId={book.id }
+              shopDes={book.description}
+            />
             </SwiperSlide>
           ))}
         </Swiper>

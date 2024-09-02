@@ -55,6 +55,7 @@ export async function fetchUsers(data) {
 
 export  async  function fetchBooks() {
     const data = await fetch('http://127.0.0.1:5000/shop');
+   
 
     if (!data.ok) {
         throw new Error(`HTTP error! status: ${data.status}`);
