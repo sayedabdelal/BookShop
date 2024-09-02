@@ -30,24 +30,31 @@ export async function NewUser({ name, email, password }) {
 }
 
 export async function fetchUsers(data) { 
-  const response = await fetch('http://127.0.0.1:5000/login', {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data)
-  }); 
+  try {
+      const response = await fetch('http://127.0.0.1:5000/login', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+      }); 
 
-  if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      const responseData = await response.json(); // Parse the response as JSON
+
+      if (!response.ok) {
+          // If the response is not ok, throw an error with the message from the backend
+          throw new Error(responseData.error || 'Unknown error');
+      }
+
+      return responseData; // Return the successful response data
+  } catch (error) {
+      console.error('Error:', error.message);
+      throw error; // Re-throw the error for further handling
   }
-
-  return response.json();
 }
 
-
 export  async  function fetchBooks() {
-    const data = await fetch('http://127.0.0.1:5000/book');
+    const data = await fetch('http://127.0.0.1:5000/shop');
 
     if (!data.ok) {
         throw new Error(`HTTP error! status: ${data.status}`);
