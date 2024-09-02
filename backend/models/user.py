@@ -20,10 +20,6 @@ class User(db.Model):
         return {
             'id': self.id,
             'fname': self.fname,
-            'lname': self.lname,
-            'username': self.username,
             'email': self.email,
-            'created_at': self.created_at,
-            'updated_at': self.updated_at,
             'carts': [{'id': cart.id, 'total_price': cart.total_price} for cart in self.carts]
         }
