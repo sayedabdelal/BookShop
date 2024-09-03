@@ -45,6 +45,10 @@ const cartSlice = createSlice({
         item.quantity = Math.max(1, quantity); // Ensure quantity is at least 1
       }
     },
+    // New action to clear the cart
+    clearCart: (state) => {
+      state.items = [];
+    },
   },
 });
 
@@ -53,7 +57,8 @@ export const {
   removeItemFromCart,
   increaseQuantity,
   decreaseQuantity,
-  updateQuantity
+  updateQuantity,
+  clearCart
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

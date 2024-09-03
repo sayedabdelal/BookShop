@@ -30,6 +30,7 @@ function Cart() {
           items={cartItems}
           onQuantityChange={handleQuantityChange}
           onRemoveItem={handleRemoveItem}
+          
         />
         <CartSummary subtotal={subtotal} shipping={shipping} total={total} />
       </div>

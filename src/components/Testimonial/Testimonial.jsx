@@ -20,19 +20,19 @@ import 'swiper/css/scrollbar';
 function Testimonial() {
     const testimonials = [
         {
-            imgSrc: testImage1,
+            imgSrc: testImage2,
             name: 'Rial Loz',
             description: 'The best website to buy books, the purchase is very easy to make and has great discounts.',
             rating: 2,
         },
         {
-            imgSrc: testImage2,
+            imgSrc: testImage4,
             name: 'John Doe',
             description: 'Amazing selection of books and a very user-friendly website. Highly recommended!',
             rating: 5,
         },
         {
-            imgSrc: testImage3,
+            imgSrc: testImage2,
             name: 'Jane Smith',
             description: 'Great customer service and fast shipping. I will definitely buy again!',
             rating: 4.0,

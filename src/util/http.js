@@ -62,3 +62,71 @@ export  async  function fetchBooks() {
     }
     return data.json();
 }
+
+export async function submitCartData(formData, cartItems) {
+  const response = await fetch('httpffffff/checkout.json', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      customer: {
+        name: formData.name,
+        address: formData.address,
+        city: formData.city,
+        cardNumber: formData.cardNumber,
+        cardholderName: formData.cardholderName,
+        phone: formData.phone,
+        cvv: formData.cvv,
+        expiryDate: formData.expiryDate,
+      },
+      cartItems: cartItems.map(item => ({
+        id: item.id,
+        quantity: item.quantity,
+      })),
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  return response.json();  
+}
+
+export async function infoWishList(productId, action) {
+  try {
+    // Define the API endpoint
+    const apiEndpoint = 'http://your-api-endpoint.com/wishlist'; // Update with your actual endpoint
+
+    // Determine the HTTP method based on the action
+    const method = action === 'add' ? 'POST' : action === 'remove' ? 'DELETE' : null;
+
+    if (!method) {
+      throw new Error('Invalid action. Use "add" or "remove".');
+    }
+
+    // Send the request with the product ID
+    const response = await fetch(apiEndpoint, {
+      method: method,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ id: productId }),
+    });
+
+    // Check if the response is ok
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    // Parse the JSON response
+    const data = await response.json();
+
+    // Return the ID of the product for further processing
+    return data.productId; // Adjust based on your API response
+  } catch (error) {
+    console.error('Error processing wishlist action:', error);
+    throw error;
+  }
+}
