@@ -30,6 +30,7 @@ function Cart() {
           items={cartItems}
           onQuantityChange={handleQuantityChange}
           onRemoveItem={handleRemoveItem}
+          
         />
         <CartSummary subtotal={subtotal} shipping={shipping} total={total} />
       </div>
@@ -38,3 +39,19 @@ function Cart() {
   
   export default Cart;
   
+
+/*
+cart number > 10
+stockQuantity > 10
+
+click + >> requset -> id
+click - >> requset -> 
+
+click remove >> requset -> cartitemid
+
+btn delet -- all 
+
+
+
+
+*/

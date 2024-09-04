@@ -22,6 +22,7 @@ def create_app():
     from .views.cart import cart as cart_blueprint
     from .views.book import book as book_blueprint
     from .views.category import category as category_blueprint
+    from .views.cart_items import cart_items as cart_items_blueprint
 
     app.register_blueprint(login_blueprint, url_prefix='/')
     app.register_blueprint(register_blueprint, url_prefix='/')
@@ -31,6 +32,7 @@ def create_app():
     app.register_blueprint(cart_blueprint, url_prefix='/')
     app.register_blueprint(book_blueprint, url_prefix='/')
     app.register_blueprint(category_blueprint, url_prefix='/')
+    app.register_blueprint(cart_items_blueprint, url_prefix='/')
 
     with app.app_context():
         db.create_all()

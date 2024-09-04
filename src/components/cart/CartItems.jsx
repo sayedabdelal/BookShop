@@ -29,7 +29,7 @@ function CartItems({ items }) {
             </div>
             <div className="item-details">
               <div className="item-name">{item.title}</div>
-              <div className="item-price">€{item.price}</div>
+              <div className="item-price">€{item.originalPrice}</div>
               <div className="item-quantity">
                 <button
                   className="quantity-btn"

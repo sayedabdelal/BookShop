@@ -192,6 +192,33 @@ body.dark-theme {
   gap: 2rem;
   align-items: center;
   text-align: left;
+  margin-top: 4rem;
+}
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 2rem;
+}
+.form-actions .button {
+  font: inherit;
+  cursor: pointer;
+  padding: 0.5rem 1.5rem;
+  border: none;
+  background-color: #e30d7c;
+  color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.26);
+  font-weight: bold;
+  text-decoration: none;
+
+  
+}
+
+.form-actions .button:hover {
+  background-color: #e30d5b;
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
 }
 
 .error-block-icon {
@@ -358,5 +385,8 @@ body.dark-theme {
     padding: 1rem;
     top: 15vh;
     width: 23rem;
+  }
+  .error-block {
+    gap: .5rem;
   }
 }

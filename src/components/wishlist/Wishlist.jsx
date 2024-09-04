@@ -1,10 +1,15 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeItem } from '../../store/wishlistSlice';
+
+ 
 import './Wishlist.css';
 
 function Wishlist() {
   const dispatch = useDispatch();
+  // const mutation = useMutation(
+
+  // );
   const wishlistItems = useSelector((state) => state.wishlist.items);
 
   const handleRemove = (itemId) => {

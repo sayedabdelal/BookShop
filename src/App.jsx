@@ -56,7 +56,6 @@ const router = createBrowserRouter([
       },
       {
         path: "shop",
-        // element: <ShopPage />, // Main component for "/shop"
         children: [
           {
             index: true, // This is the default route for "/shop"

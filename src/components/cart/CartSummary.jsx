@@ -1,10 +1,21 @@
 import React, { useState } from 'react';
 import CheckoutModal from './CheckoutModal';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 function CartSummary({ subtotal, shipping, total }) {
   const [isModalOpen, setModalOpen] = useState(false);
+  const isAuth = useSelector(state => state.auth.isAuthenticated);
+  const navigate = useNavigate();
 
-  const openModal = () => setModalOpen(true);
+  const openModal = () => {
+    if (isAuth) {
+      setModalOpen(true);
+    } else {
+      navigate('/login'); // Redirect to login page
+    }
+  };
+
   const closeModal = () => setModalOpen(false);
 
   return (

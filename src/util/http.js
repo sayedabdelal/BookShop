@@ -78,6 +78,7 @@ export async function addRemoveCart({ action, productId, quantity, cartItemId })
       ? 'http://127.0.0.1:5000/api/add_cart_item'  // URL to add to cart
       : 'http://127.0.0.1:5000/api/delete_cart_item/';  // URL to remove from cart
 
+
   const options = {
       method: action === 'add' ? 'POST' : 'DELETE',
       headers: {
@@ -129,6 +130,88 @@ export async function addRemoveWishlist({ action, productId, wishlistId }) {
           'Content-Type': 'application/json'
       },
       credentials: 'include',  // Make sure to include this
+      body: JSON.stringify(
+          action === 'add' 
+          ? { productId } 
+          : { wishlistId }
+      )
+  };
+
+  try {
+      const response = await fetch(url, options);
+
+      if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (action === 'add') {
+          console.log('Item added to wishlist:', data);
+          return data.wishlistId; // Return the wishlist item ID after adding to the wishlist
+      } else {
+          return 'Item removed from wishlist successfully'; // Return a success message after removing from the wishlist
+      }
+
+  } catch (error) {
+      console.error('Error in addRemoveWishlist:', error);
+      throw new Error(error.message || 'Something went wrong');
+  }
+}
+
+
+
+
+
+
+
+export async function submitCheckout(formData, cartItems) {
+  const response = await fetch('httpffffff/checkout.json', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      customer: {
+        name: formData.name,
+        address: formData.address,
+        city: formData.city,
+        cardNumber: formData.cardNumber,
+        cardholderName: formData.cardholderName,
+        phone: formData.phone,
+        cvv: formData.cvv,
+        expiryDate: formData.expiryDate,
+      },
+      cartItems: cartItems.map(item => ({
+        id: item.id,
+        quantity: item.quantity,
+      })),
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  return response.json();  
+}
+
+}
+
+
+
+// wishlist
+
+export async function addRemoveWishlist({ action, productId, wishlistId }) {
+  const url = action === 'add'
+      ? 'http://127.0.0.1:5000/wishlist/add'  // URL to add to wishlist
+      : 'http://127.0.0.1:5000/wishlist/remove';  // URL to remove from wishlist
+
+  const options = {
+      method: action === 'add' ? 'POST' : 'DELETE',
+      headers: {
+          'Content-Type': 'application/json'
+      },
       body: JSON.stringify(
           action === 'add' 
           ? { productId } 
