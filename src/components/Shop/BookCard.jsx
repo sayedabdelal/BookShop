@@ -9,6 +9,7 @@ import { addRemoveCart, addRemoveWishlist } from '../../util/http';
 function BookCard({ imgSrc, title, discountPrice, originalPrice, rating, shopId, shopDes }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    // console.log('shopId:', shopId);
 
     // State to manage whether the item is in the cart or wishlist
     const [inCart, setInCart] = useState(false);
@@ -24,7 +25,7 @@ function BookCard({ imgSrc, title, discountPrice, originalPrice, rating, shopId,
     }, [cartItems, wishlistItems, shopId]);
 
     const product = {
-        id: shopId,
+        shopId,
         title,
         imgSrc,
         discountPrice: parseFloat(discountPrice),
@@ -36,7 +37,8 @@ function BookCard({ imgSrc, title, discountPrice, originalPrice, rating, shopId,
     // Mutation for adding/removing from the cart
     const cartMutation = useMutation({
         mutationFn: ({ action, productId, quantity, cartItemId }) =>
-            addRemoveCart({ action, productId, quantity, cartItemId }),
+            
+        addRemoveCart({ action, productId, quantity, cartItemId }),
         onSuccess: (response) => {
             if (response.cartItemId) {
                 dispatch(addItemToCart({ ...product, cartItemId: response.cartItemId }));
@@ -64,7 +66,7 @@ function BookCard({ imgSrc, title, discountPrice, originalPrice, rating, shopId,
                 alert('Item added to wishlist');
                 setInWishlist(true);
             } else {
-                dispatch(removeItem(product.id));
+                dispatch(removeItem(product.shopId));
                 alert('Item removed from wishlist');
                 setInWishlist(false);
             }
@@ -77,9 +79,12 @@ function BookCard({ imgSrc, title, discountPrice, originalPrice, rating, shopId,
 
     function handleAddToCart() {
         if (inCart) {
+            console.log('cartItemId:', product.cartItemId);
             cartMutation.mutate({ action: 'remove', cartItemId: product.cartItemId });
         } else {
-            cartMutation.mutate({ action: 'add', productId: product.id, quantity: 1 });
+            
+            cartMutation.mutate({ action: 'add', productId: product.shopId, quantity: 1 });
+            
         }
     }
 
@@ -87,7 +92,8 @@ function BookCard({ imgSrc, title, discountPrice, originalPrice, rating, shopId,
         if (inWishlist) {
             wishlistMutation.mutate({ action: 'remove', wishlistId: product.wishlistId });
         } else {
-            wishlistMutation.mutate({ action: 'add', productId: product.id });
+             
+            wishlistMutation.mutate({ action: 'add', productId: product.shopId });
         }
     }
 

@@ -75,8 +75,8 @@ export async function fetchBooks() {
 
 export async function addRemoveCart({ action, productId, quantity, cartItemId }) {
   const url = action === 'add' 
-      ? 'http://127.0.0.1:5000/cart/add'  // URL to add to cart
-      : 'http://127.0.0.1:5000/cart/remove';  // URL to remove from cart
+      ? 'http://127.0.0.1:5000/api/cart'  // URL to add to cart
+      : 'http://127.0.0.1:5000/api/cart';  // URL to remove from cart
 
   const options = {
       method: action === 'add' ? 'POST' : 'DELETE',
