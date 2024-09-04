@@ -39,3 +39,19 @@ function Cart() {
   
   export default Cart;
   
+
+/*
+cart number > 10
+stockQuantity > 10
+
+click + >> requset -> id
+click - >> requset -> 
+
+click remove >> requset -> cartitemid
+
+btn delet -- all 
+
+
+
+
+*/

@@ -1,30 +1,51 @@
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import {fetchBooks} from '../../util/http.js';
+import { fetchBooks } from '../../util/http.js';
 import { Navigation, Grid } from 'swiper/modules';
-import  LoadingIndicator from '../../UI/LoadingIndicator.jsx'
-
-
+import LoadingIndicator from '../../UI/LoadingIndicator.jsx';
+import ErrorPage from '../../UI/ErrorPage.jsx';
 import BookCard from './BookCard';
-
 import { useQuery } from "@tanstack/react-query";
+ 
+ 
 
 import './Shop.css';
 
 function Shop() {
-   // Fetch existing books
-   const { data: books, isError, isLoading } = useQuery({
+  // Fetch existing books
+  const { data: books, isError, isLoading, error } = useQuery({
     queryKey: ["books"],
     queryFn: fetchBooks,
   });
   
+  let booksOne = [];
+  let booksTwo = [];
+
+  if (books && books.length > 0) {
+    const half = Math.ceil(books.length / 2);
+    booksOne = books.slice(0, half);
+    booksTwo = books.slice(half, books.length);
+  }
 
   if (isLoading) {
     return <LoadingIndicator />;
   }
 
   if (isError) {
-    return <div>Error fetching books.</div>;
+    let errorMessage = "Failed to load books. Please try again later.";
+    let errorTitle = "Failed to Load Books";
+
+    if (error?.message) {
+      try {
+        const parsedError = JSON.parse(error.message);
+        errorTitle = `Error ${parsedError.status}`;
+        errorMessage = `${parsedError.statusText}: ${parsedError.info}`;
+      } catch {
+        errorMessage = error.message;
+      }
+    }
+
+    return <ErrorPage title={errorTitle} message={errorMessage} />;
   }
 
   return (
@@ -48,8 +69,8 @@ function Shop() {
             },
           }}
         >
-          {books.map((book) => (
-            <SwiperSlide key={book.categoryId}>
+          {booksOne.map((book) => (
+            <SwiperSlide key={`book1-${book.id}`}>
               <BookCard
                 imgSrc={book.image}
                 title={book.title}
@@ -62,7 +83,6 @@ function Shop() {
             </SwiperSlide>
           ))}
         </Swiper>
-        
       </div>
       <div className="new__container container">
         <Swiper
@@ -82,21 +102,20 @@ function Shop() {
             },
           }}
         >
-          {books.map((book) => (
-            <SwiperSlide key={book.categoryId+9}>
-            <BookCard
-              imgSrc={book.image}
-              title={book.title}
-              discountPrice={book.discountPrice}
-              originalPrice={book.price}
-              rating={book.rating}
-              shopId={book.id }
-              shopDes={book.description}
-            />
+          {booksTwo.map((book) => (
+            <SwiperSlide key={`book2-${book.id}`}>
+              <BookCard
+                imgSrc={book.image}
+                title={book.title}
+                discountPrice={book.discountPrice}
+                originalPrice={book.price}
+                rating={book.rating}
+                shopId={book.id}
+                shopDes={book.description}
+              />
             </SwiperSlide>
           ))}
         </Swiper>
-        
       </div>
     </section>
   );

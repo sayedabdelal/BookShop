@@ -3,7 +3,7 @@ import Modal from '../../UI/Modal';
 import './CheckoutModal.css'; // Adjust the path as needed
 import { useDispatch, useSelector } from 'react-redux';
 import { useMutation } from '@tanstack/react-query';
-import { submitCartData } from '../../util/http';
+import { submitCheckout } from '../../util/http';
 import { clearCart } from '../../store/cartSlice';
 
 
@@ -26,7 +26,7 @@ export default function CheckoutModal({ onClose }) {
 
   // Define the mutation using useMutation
   const mutation = useMutation({
-    mutationFn: () => submitCartData(formData, cartItems),
+    mutationFn: () => submitCheckout(formData, cartItems),
     onSuccess: (data) => {
       console.log('Checkout successful:', data);
       // Optionally reset the form or close the modal here
