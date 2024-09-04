@@ -1,4 +1,4 @@
-from backend import db
+from backend import db, create_app
 from datetime import datetime
 import json
 
@@ -42,38 +42,27 @@ class Book(db.Model):
 
 
 def load_book_data():
-    try:
-        app = db.create_app()
-        with app.app_context():
-            with open('book_data.json', 'r') as file:
-                data = json.load(file)
+    app = create_app()
+    with app.app_context():
+        with open('book_data.json', 'r') as file:
+            data = json.load(file)
 
-            # Clear existing data
-            db.session.query(Book).delete()
-            db.session.commit()  # Make sure to commit the deletion
+        # Clear existing data
+        db.session.query(Book).delete()
 
-            for item in data['books']:
-                new_book = Book(
-                    title=item['title'],
-                    author=item['author'],
-                    image=item['image'],
-                    price=item['price'],
-                    discountPrice=item['discountPrice'],
-                    description=item['description'],
-                    rating=item['rating'],
-                    stock_quantity=item['stockQuantity'],
-                    created_at=datetime.strptime(item['createdAt'], '%Y-%m-%dT%H:%M:%S'),
-                    updated_at=datetime.strptime(item['updatedAt'], '%Y-%m-%dT%H:%M:%S'),
-                    category_id=item['categoryId']
-                )
-                db.session.add(new_book)
-            
-            db.session.commit()
-            print("Data loaded successfully.")
-
-    except FileNotFoundError:
-        print("Error: The file 'book_data.json' was not found.")
-    except json.JSONDecodeError:
-        print("Error: Failed to decode JSON from the file.")
-    except Exception as e:
-        print(f"An unexpected error occurred: {e}")
+        for item in data['books']:
+            new_book = Book(
+                title=item['title'],
+                author=item['author'],
+                image=item['image'],
+                price=item['price'],
+                discountPrice=item['discountPrice'],
+                description=item['description'],
+                rating=item['rating'],
+                stock_quantity=item['stockQuantity'],
+                created_at=datetime.strptime(item['createdAt'], '%Y-%m-%dT%H:%M:%S'),
+                updated_at=datetime.strptime(item['updatedAt'], '%Y-%m-%dT%H:%M:%S'),
+                category_id=item['categoryId']
+            )
+            db.session.add(new_book)
+        db.session.commit()
