@@ -18,7 +18,7 @@ def login_view():
         
         user = User.query.filter_by(email=email).first()
         if user and user.check_password(password):
-            session['email'] = user.email
+            session['user_id'] = user.id
             return jsonify({'message': 'Login successful!'}), 200
         else:
             return jsonify({'error': 'Invalid email or password'}), 401
