@@ -1,6 +1,5 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, session
 from backend import db
-from ..models.user import User
 from ..models.cart import Cart
 
 cart = Blueprint('cart', __name__)
@@ -60,16 +59,16 @@ def remove_cart():
 
 @cart.route('/api/cart', methods=['POST'])
 def create_item():
+    if 'user_id' not in session:
+        return jsonify({'message': 'User not logged in'}), 401
+    user_id = session['user_id']
     if not request.get_json():
-        return jsonify("Not a JSON"), 400
+        return jsonify({'message': 'Not a JSON'}), 400
     data = request.get_json()
-    required_fields = ['total_price', 'status', 'user_id']
+    required_fields = ['total_price', 'status']
     if not all(field in data for field in required_fields):
         return jsonify({'message': 'Missing required fields'}), 400
-    user = User.query.get(data['user_id'])
-    if not user:
-        return jsonify({'message': 'User not found'}), 404
-    new_cart = Cart(total_price=data['total_price'], status=data['status'], user_id=user.id)
+    new_cart = Cart(total_price=data['total_price'], status=data['status'], user_id=user_id)
     db.session.add(new_cart)
     db.session.commit()
     return jsonify(new_cart.to_dict()), 201
