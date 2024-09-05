@@ -6,6 +6,9 @@ import Footer from "../components/Footer";
 import { authActions } from '../store/auth';
 
 import { useSelector, useDispatch } from 'react-redux';
+import { logoutUser } from "../util/http";
+import { useMutation } from "@tanstack/react-query";
+
 
 
 
@@ -26,10 +29,33 @@ function RootPage() {
     const handleLoginClick = () => {
         navigate("/user");
     };
+
+     // Use React Query's useMutation to handle logout
+     const mutation = useMutation({
+        mutationFn: logoutUser,
+        onSuccess: () => {
+            // Dispatch Redux action to update auth state
+            dispatch(authActions.logout());
+
+            // Remove the isAuth value from local storage
+            localStorage.removeItem('isAuthenticated');
+
+            // Optionally redirect to the home page or login page
+            navigate('/login');
+        },
+        onError: (error) => {
+            console.error('Logout failed:', error);
+            alert('Failed to log out. Please try again.');
+        }
+    });
+
+    
     function handleLogot() {
-        dispatch(authActions.logout());
-        // Remove the isAuth value from local storage
-        localStorage.removeItem('isAuthenticated');
+        // dispatch(authActions.logout());
+        // // Remove the isAuth value from local storage
+        // localStorage.removeItem('isAuthenticated');
+        // dispatch(authActions.logout());
+        mutation.mutate();
     }
 
 
