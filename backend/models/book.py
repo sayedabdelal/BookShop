@@ -43,9 +43,10 @@ class Book(db.Model):
 
 
 def load_book_data():
+    '''load book data in database for each book'''
     app = create_app()
     with app.app_context():
-        with open('book_data.json', 'r', encoding='utf-8') as file:
+        with open('backend/book_data.json', 'r', encoding='utf-8') as file:
             data = json.load(file)
 
         # Clear existing data
