@@ -3,6 +3,7 @@ from datetime import datetime
 import json
 
 class Book(db.Model):
+    '''Book class having data all data of book'''
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255), nullable=False)
     author = db.Column(db.String(45), nullable=False)
@@ -44,7 +45,7 @@ class Book(db.Model):
 def load_book_data():
     app = create_app()
     with app.app_context():
-        with open('book_data.json', 'r') as file:
+        with open('book_data.json', 'r', encoding='utf-8') as file:
             data = json.load(file)
 
         # Clear existing data
@@ -56,7 +57,7 @@ def load_book_data():
                 author=item['author'],
                 image=item['image'],
                 price=item['price'],
-                discountPrice=item['discountPrice'],
+                discountPrice=item['discountPrice'] if 'discountPrice' in item else None,
                 description=item['description'],
                 rating=item['rating'],
                 stock_quantity=item['stockQuantity'],
