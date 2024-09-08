@@ -10,14 +10,19 @@ cart_items = Blueprint('cart_items', __name__)
 
 @cart_items.route('/api/cart_items', methods=['GET'])
 def get_cart_items():
-    if 'user_id' not in session:
-        return jsonify({'message': 'User not logged in'}), 401
-    user_id = session.get('user_id')
+    '''Get all cart items from database for user that they logged in'''
+    user_id = request.args.get('user_id')  # Accept user_id from the query params
+    print(f"User ID: {user_id}")
+    if not user_id:
+        return jsonify({'message': 'User ID not provided'}), 400
+
     cart_items = CartItems.query.filter_by(user_id=user_id).all()
+    
     if cart_items:
         return jsonify([cart.to_dict() for cart in cart_items]), 200
     else:
-        return jsonify({'message': 'No items in cart'}), 404
+        return jsonify([]), 200
+
 
 
 # @cart_items.route('/api/cart_items/<string:item_id>', methods=['GET'])
@@ -38,10 +43,9 @@ def add_cart_item():
         return jsonify({'message': 'Missing required fields'}), 400
     
     user_id = session.get('user_id')
-    # print (session['user_id'])
-    print(user_id)
+    print(f"Session during add_cart_item: {session}")
     if not user_id:
-        return jsonify({'message': 'User not logged in'}), 401
+        return jsonify({'message': 'User not logged in'}), 401 
     cart = Cart.query.filter_by(user_id=user_id, status='active').first()
     if not cart:
         #todo create a new cart if none exists
@@ -66,11 +70,14 @@ def add_cart_item():
     return jsonify({'message': 'Item added successfully','new_cart_item_id': new_cart_item.id ,'cart_item': new_cart_item.to_dict()}), 201
 
 
-@cart_items.route('/api/delete_cart_item/<string:item_id>', methods=['DELETE'])
-def delete_cart_item(item_id):
+@cart_items.route('/api/delete_cart_item', methods=['DELETE'])
+def delete_cart_item():
     if 'user_id' not in session:
         return jsonify({'message': 'User not logged in'}), 401
-    cart_item_id = CartItems.query.get(item_id)
+    data = request.get_json()
+    print(data)
+    cart_item_id = CartItems.query.get(data['cartItemId'])
+    print(cart_item_id)
     if not cart_item_id:
         return jsonify({'message': 'Cart item not found'}), 404
     if cart_item_id:
@@ -90,6 +97,7 @@ def delete_all_cart_items():
         db.session.delete(item)
     db.session.commit()
     return jsonify({'message': 'All items deleted successfully'}), 200
+
 
 @cart_items.route('/api/edit_cart_item/<string:item_id>', methods=['PUT'])
 def update_cart_item(item_id):
