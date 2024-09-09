@@ -20,7 +20,7 @@ export const fetchCartItems = createAsyncThunk(
       return rejectWithValue(`HTTP error: ${response.status}`);
     }
     
-    
+    console.log('responselog:', response);
     return  await response.json(); // Return cart items
   }
 );

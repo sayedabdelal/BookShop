@@ -15,6 +15,7 @@ def login_view():
     
     user = User.query.filter_by(email=email).first()
     if user and user.check_password(password):
+        session.permanent = True
         session['user_id'] = user.id
         print(session)
 
@@ -23,3 +24,20 @@ def login_view():
         return response, 200
     else:
         return jsonify({'error': 'Invalid email or password'}), 401
+
+
+
+@login.route('/check-session', methods=['GET'])
+def check_session():
+    '''cehck for session is active or not'''
+    print('arrive')
+    print(session)
+    if 'user_id' in session:
+        print('yes')
+        return jsonify({
+            'isAuthenticated': True,
+            'user_id': session.get('user_id')
+            }), 200
+    else:
+        print('nooooo')
+        return jsonify({'isAuthenticated': False}), 401

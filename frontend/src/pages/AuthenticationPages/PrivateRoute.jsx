@@ -12,7 +12,7 @@ const PrivateRoute = ({ children }) => {
   const location = useLocation();
   useEffect(() => {
     // Save the isAuth value to local storage
-    localStorage.setItem('isAuthenticated', JSON.stringify(isAuth));
+    localStorage.setItem('isAuthenticated', isAuth);
   }, [isAuth]); // This will run every time isAuth changes
    
   if (!isAuth) {

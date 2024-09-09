@@ -1,0 +1,25 @@
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .pagination__prev, .pagination__next {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    margin: 0 10px;
+  }
+  
+  .pagination__prev:disabled, .pagination__next:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .pagination__info {
+    font-size: 16px;
+  }
+  

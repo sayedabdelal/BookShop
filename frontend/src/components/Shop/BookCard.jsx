@@ -11,57 +11,58 @@ import { addRemoveCart, addRemoveWishlist } from '../../util/http';
 let cartObject = {};
 let wishlistObject = {};
 
-function BookCard({ imgSrc, title, discountPrice, originalPrice, rating, shopId, shopDes, isInCart, cart_item_id,isInWishList,wishListId   }) {
+function BookCard({ imgSrc, title, discountPrice, originalPrice, rating, shopId, shopDes, isInCart, cart_item_id, isInWishList, wishListId }) {
+
     const [wishlistId, setWishlistId] = useState(null);
     const [cartItemId, setCartItemId] = useState(null);
-   
-     
+
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
     // made a cart object
     madeObject(shopId, cart_item_id)
 
-    function madeObject(shopId, cart_Item_Id) { 
+    function madeObject(shopId, cart_Item_Id) {
         cartObject[shopId] = cart_Item_Id;
     }
-    
-    function updateCart() { 
+
+    function updateCart() {
         dispatch(fetchCartItems());
     }
     // made a wishlist object
     madeWishlistObject(shopId, wishListId)
-    function madeWishlistObject(shopId, wishListId) { 
+    function madeWishlistObject(shopId, wishListId) {
         wishlistObject[shopId] = wishListId;
     }
 
-    
-    
-    
-   
+
+
+
+
 
 
     // State to manage whether the item is in the cart or wishlist
     const [inCart, setInCart] = useState(isInCart);
     const [inWishlist, setInWishlist] = useState(isInWishList);
-     
+
 
 
     // Get the cartItemId of the product if it is in the cart
     const cartItems = useSelector((state) => state.cart.items);
     // function getCartItemId(shopId) { 
     //     const cartItem = cartItems.find(item => item.book_id === shopId);
-        
+
     //     // If a matching item is found, return its cart_id
     //     if (cartItem) {
     //         console.log('cart_id:', cartItem.cart_id);
     //         return cartItem.cart_id;
     //     } 
-        
+
     //     // If no match is found, return null or undefined
     //     return null;
     // }
-  
+
 
     const product = {
         shopId,
@@ -71,25 +72,25 @@ function BookCard({ imgSrc, title, discountPrice, originalPrice, rating, shopId,
         originalPrice: parseFloat(originalPrice),
         rating,
         description: shopDes,
-        
+
     };
 
     // Mutation for adding/removing from the cart
     const cartMutation = useMutation({
         mutationFn: ({ action, productId, quantity, cartItemId }) =>
-            
-        addRemoveCart({ action, productId, quantity, cartItemId }),
+
+            addRemoveCart({ action, productId, quantity, cartItemId }),
         onSuccess: (response) => {
             // console.log('Success response:', response); // Add this line
             setCartItemId(response.new_cart_item_id);
-           
 
-            if (response && response.new_cart_item_id ) {
+
+            if (response && response.new_cart_item_id) {
                 // console.log('allllll', response);
-                setInCart(true);    
+                setInCart(true);
                 dispatch(addItemToCart({ ...product, id: shopId, cartItemId: response.new_cart_item_id }));
                 alert('Item added to cart');
-                
+
             } else {
                 setInCart(false);
                 // console.log('shopIdremove:', shopId);
@@ -97,7 +98,7 @@ function BookCard({ imgSrc, title, discountPrice, originalPrice, rating, shopId,
                 dispatch(removeItemFromCart(shopId));
                 dispatch(fetchCartItems());
                 alert('Item removed from cart');
-               
+
             }
         },
         onError: (error) => {
@@ -130,32 +131,32 @@ function BookCard({ imgSrc, title, discountPrice, originalPrice, rating, shopId,
             alert(`Failed to ${inWishlist ? 'remove' : 'add'} item to wishlist. Please try again.`);
         }
     });
-    
-   
-    
+
+
+
 
     function handleAddToCart() {
         let cartId = cartObject[shopId];
-        
+
         if (inCart) {
-            
-            
-            cartMutation.mutate({ action: 'remove', cartItemId: cartItemId? cartItemId : cartId });
+
+
+            cartMutation.mutate({ action: 'remove', cartItemId: cartItemId ? cartItemId : cartId });
         } else {
-            
+
             cartMutation.mutate({ action: 'add', productId: product.shopId, quantity: 1 });
-            
+
         }
     }
 
     function handleAddToWishList() {
         let wishId = wishlistObject[shopId];
-        
+
         if (inWishlist) {
             // console.log(wishlistId)
-            wishlistMutation.mutate({ action: 'remove', wishlistId: wishlistId? wishlistId : wishId });
+            wishlistMutation.mutate({ action: 'remove', wishlistId: wishlistId ? wishlistId : wishId });
         } else {
-             
+
             wishlistMutation.mutate({ action: 'add', productId: product.shopId });
         }
     }
@@ -171,30 +172,27 @@ function BookCard({ imgSrc, title, discountPrice, originalPrice, rating, shopId,
             <div className="add-card">
                 <h3 className="new__title">{title}</h3>
                 <div className="new__prices">
-                    <span className="new__discount">{discountPrice}</span>
-                    <span className="new__price">{originalPrice}</span>
+                    {discountPrice && <span className="new__discount">${discountPrice}</span>}
+                    {!discountPrice && <span className="new__discount"></span>}
+                    <span className="new__price">${originalPrice}</span>
                 </div>
-                <div className="new__starts">
+                <div className="new__stars">
                     {Array.from({ length: 5 }).map((_, index) => (
                         <i
                             key={index}
                             className={
-                                index < rating
+                                index < Math.floor(rating) // Full stars
                                     ? 'ri-star-fill'
-                                    : index < rating + 0.5
+                                    : index < Math.ceil(rating) && rating % 1 >= 0.5 // Half star
                                         ? 'ri-star-half-fill'
-                                        : 'ri-star-line'
+                                        : 'ri-star-line' // Empty star
                             }
                         />
                     ))}
                 </div>
-                <button className="button" onClick={handleAddToCart}>
-                    {inCart ? 'Remove from Cart' : 'Add To Cart'}
-                </button>
+
+              
                 <div className="featured__actions">
-                    <button>
-                        <i className="ri-search-line" />
-                    </button>
                     <button onClick={handleAddToWishList}>
                         <i className={inWishlist ? "ri-heart-3-fill dark" : "ri-heart-3-line"} />
                     </button>
@@ -203,6 +201,9 @@ function BookCard({ imgSrc, title, discountPrice, originalPrice, rating, shopId,
                     </button>
                 </div>
             </div>
+            <button className="button Cartbtn" onClick={handleAddToCart}>
+                    {inCart ? 'Remove from Cart' : 'Add To Cart'}
+                </button>
         </a>
     );
 }
@@ -210,8 +211,8 @@ function BookCard({ imgSrc, title, discountPrice, originalPrice, rating, shopId,
 export default BookCard;
 
 
- 
-// use redux tolket to store cart_Item_Id shopdID when add to cart dispatch cart_Item_Id to store when 
+
+// use redux tolket to store cart_Item_Id shopdID when add to cart dispatch cart_Item_Id to store when
 // remove from cart retrun cart_Item_Id to mutate and remove from cart
 
 

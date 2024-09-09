@@ -21,8 +21,10 @@ function LoginPage() {
           dispatch(fetchCartItems());
           dispatch(fetchWishlist());
           console.log('Login successful');
+          console.log("data", data);
         
-        dispatch(authActions.login());
+          // dispatch(authActions.login(data.user_id));
+          dispatch(authActions.login());
         navigate("/user");
       } else {
         setErrors({ email: data.error });
@@ -59,6 +61,9 @@ function LoginPage() {
 
     loginMutation.mutate(data);
   }
+
+
+  
 
   return (
     <div className="login grid" id="login-content">

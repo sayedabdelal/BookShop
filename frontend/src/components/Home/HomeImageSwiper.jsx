@@ -1,51 +1,55 @@
-import React from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-// import SwiperCore, { Navigation, Autoplay } from 'swiper';
- 
-
+import { useRef, useEffect, useState } from 'react';
+import { motion, useAnimation } from 'framer-motion';
 import Homeimg1 from '../../assets/img/home-book-1.png';
 import Homeimg2 from '../../assets/img/home-book-2.png';
 import Homeimg3 from '../../assets/img/home-book-3.png';
 import Homeimg4 from '../../assets/img/home-book-4.png';
 import HomeArticle from './HomeArticle';
 
-// Initialize Swiper modules
-// SwiperCore.use([Navigation, Autoplay]);
+const images = [Homeimg1, Homeimg2, Homeimg3, Homeimg4];
 
-const HomeImageSwiper = () => (
-  <div className="home__images">
-    <Swiper
-       loop={true}
-       spaceBetween={16}
-       grabCursor={true}
-       slidesPerView="auto"
-       centeredSlides={true}
-       navigation={{
-         nextEl: '.swiper-button-next',
-         prevEl: '.swiper-button-prev',
-       }}
-       breakpoints={{
-         1150: {
-           slidesPerView: 4,
-           centeredSlides: false,
-         },
-       }}
-    >
-      <SwiperSlide>
-        <HomeArticle src={Homeimg1} alt="image 1" />
-      </SwiperSlide>
-      <SwiperSlide>
-        <HomeArticle src={Homeimg2} alt="image 2" />
-      </SwiperSlide>
-      <SwiperSlide>
-        <HomeArticle src={Homeimg3} alt="image 3" />
-      </SwiperSlide>
-      <SwiperSlide>
-        <HomeArticle src={Homeimg4} alt="image 4" />
-      </SwiperSlide>
-    
-    </Swiper>
-  </div>
-);
+const HomeImageSwiper = () => {
+  const containerRef = useRef(null);
+  const controls = useAnimation();
+  const [width, setWidth] = useState(0);
+
+  useEffect(() => {
+    if (containerRef.current) {
+      setWidth(containerRef.current.scrollWidth);
+    }
+  }, [containerRef.current]);
+
+  useEffect(() => {
+    controls.start({
+      x: -width,
+      transition: {
+        duration: 20,
+        ease: "linear",
+        repeat: Infinity,
+        repeatType: 'mirror',
+      },
+    });
+  }, [controls, width]);
+
+  return (
+    <div className="home__images-wrapper">
+      <motion.div
+        className="home__images"
+        ref={containerRef}
+        animate={controls}
+        style={{ display: 'flex', whiteSpace: 'nowrap' }}
+      >
+        {images.concat(images).map((src, index) => (
+          <HomeArticle
+            key={index}
+            src={src}
+            alt={`image ${index + 1}`}
+            style={{ display: 'inline-block', width: '200px' }}
+          />
+        ))}
+      </motion.div>
+    </div>
+  );
+};
 
 export default HomeImageSwiper;

@@ -18,6 +18,7 @@ export const fetchWishlist = createAsyncThunk(
         const errorData = await response.json();
         return rejectWithValue(errorData.error || 'Something went wrong');
       }
+      console.log('responselog:', response);
 
       const data = await response.json();
       console.log('datacccccc:', data);
@@ -44,7 +45,11 @@ const wishlistSlice = createSlice({
     },
     removeItem: (state, action) => {
       state.items = state.items.filter(item => item.book_id !== action.payload);
+    },
+    clearWishList: (state) => {
+      state.items = [];
     }
+
   },
   extraReducers: (builder) => {
     builder
@@ -64,5 +69,5 @@ const wishlistSlice = createSlice({
   }
 });
 
-export const { addItem, removeItem } = wishlistSlice.actions;
+export const { addItem, removeItem, clearWishList } = wishlistSlice.actions;
 export default wishlistSlice.reducer;

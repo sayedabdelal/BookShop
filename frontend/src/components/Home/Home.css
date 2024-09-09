@@ -155,7 +155,43 @@
 }
 
 
+
 @media screen and (max-width: 600px) { 
 
 }
  
+
+.home__images-wrapper {
+  overflow: hidden; /* Hide overflow for smooth scrolling */
+  position: relative;
+  width: 100%; /* Adjust as needed */
+}
+
+.home__images {
+  display: flex;
+  white-space: nowrap; /* Ensure items are in a single line */
+}
+
+.home__images img {
+  display: inline-block;
+  width: 100%;
+  height: auto;
+}
+
+
+.swiper-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.swiper-wrapper {
+  display: flex;
+  flex-direction: row;
+  white-space: nowrap;
+}
+
+.swiper-slidee {
+  flex: 0 0 auto;
+  width: 200px;
+  margin-right: 16px;
+}

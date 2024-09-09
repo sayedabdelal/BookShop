@@ -1,4 +1,10 @@
 /*=============== NEW ===============*/
+
+.new__container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
 .new__card {
   display: flex;
   align-items:center;
@@ -17,12 +23,17 @@
 }
 .new__img {
   width: 100px;
+  height: 150px;
 
 }
+.new__stars {
+  margin-bottom: 1rem;
+}
 .new__title {
-  font-size: var(--h2-font-size);
+  font-size: 1.2rem;
   margin-bottom: 0.5rem;
   text-align: center;
+  margin-top: 1rem;
 }
 .add-card {
     width: 90%;
@@ -53,9 +64,12 @@
   margin-bottom: 2rem;
 }
 .button {
-    margin: 0 auto;
+    margin: auto;
 }
 
+.Cartbtn {
+
+}
 
 .swiper-button-next,
 .swiper-button-prev {
@@ -97,19 +111,19 @@
  
 
 
-@media screen and (min-width: 450px) and (max-width: 768px) {
+/* @media screen and (min-width: 450px) and (max-width: 768px) {
   .new__card {
     width: 390px;
     margin: 0 auto;
     padding: 1.5rem;
   }
-}
-@media screen and (min-width: 700px) and (max-width: 1200px) {
+} */
+/* @media screen and (min-width: 700px) and (max-width: 1200px) {
   .new__card {
     width: 400px;
     margin: 0 auto;
   }
- }
+ } */
  @media screen and (min-width: 1200px){ 
   .new__card {
     margin: 0 auto;
@@ -118,3 +132,4 @@
 
  
   
+ 

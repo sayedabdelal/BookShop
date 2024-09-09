@@ -8,14 +8,16 @@ import { logoutUser, fetchCarts } from "../util/http";
 
 import { useSelector, useDispatch } from 'react-redux';
 import { useMutation, useQueries } from "@tanstack/react-query";
-import { fetchCartItems } from '../store/cartSlice';
+import { fetchCartItems, clearCart  } from '../store/cartSlice';
 import { useEffect } from "react";
 import { clearUserId } from "../store/userSlice";
-import { fetchWishlist } from "../store/wishlistSlice";
+import { fetchWishlist, clearWishList } from "../store/wishlistSlice";
 
 import DarkModeToggle from "../UI/DarkModeToggle";
 
-
+ 
+// import {fetchCartItems} from '../store/cartSlice';
+// import {fetchWishlist} from '../store/wishlistSlice';
 
 
 function RootPage() {
@@ -34,6 +36,46 @@ function RootPage() {
 
     const darkMode = useSelector((state) => state.theme.darkMode);
 console.log('ROOOOOOOt', darkMode);
+
+
+
+ // const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+ 
+
+ // Function to check session status
+ const checkSession = async () => {
+     try {
+         const response = await fetch("http://127.0.0.1:5000/check-session", {
+            credentials: 'include', // Send cookies along with request
+         });
+           console.log("response checkSession", response)
+         if (response.ok) {
+           console.log("response sucess", response)
+             dispatch(authActions.login());
+         } else {
+             dispatch(authActions.logout());
+             console.log('Session expired or not authenticated');
+         }
+     } catch (error) {
+         console.error('Error checking session:', error);
+         dispatch(authActions.logout()); // Log out on error
+     }
+ };
+
+ useEffect(() => {
+     // Check session immediately on load
+     checkSession();
+
+     // Set interval to check session every 15 minutes (900,000 milliseconds)
+     const intervalId = setInterval(checkSession, 9000);
+
+     // Cleanup interval on component unmount
+     return () => clearInterval(intervalId);
+ }, [dispatch]);
+
+
+
+
 
 useEffect(() => {
   // Apply or remove the 'dark-theme' class based on darkMode state
@@ -54,8 +96,6 @@ useEffect(() => {
 
 
 
-
-
     const handleLoginClick = () => {
         navigate("/user");
     };
@@ -64,12 +104,18 @@ useEffect(() => {
     const mutation = useMutation({
         mutationFn: logoutUser,
         onSuccess: () => {
+            
+            console.log('Logout successful');
+            // dispatch(fetchWishlist());
+            dispatch(clearCart());
+            dispatch(clearWishList());
             // Dispatch Redux action to update auth state
             dispatch(authActions.logout());
 
             // Remove the isAuth value from local storage
             localStorage.removeItem('isAuthenticated');
             dispatch(clearUserId());
+            // dispatch(fetchCartItems());
 
             // Optionally redirect to the home page or login page
             navigate('/login');
