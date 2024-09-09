@@ -16,14 +16,13 @@ def create_app():
     app.config['SECRET_KEY'] = 'b1c7960dce797a332056f8347d56439b'
     # Stores sessions in files by default
     app.config['SESSION_TYPE'] = 'filesystem'
-    
-      # Set to 2 hours
     app.config['SESSION_COOKIE_SAMESITE'] = 'None'
     app.config['SESSION_COOKIE_SECURE'] = True
     # using redis instead of filesystem
     # app.config['SESSION_REDIS'] = redis.from_url('redis://127.0.0.1:6379')
     app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
-    app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=1)
+    # Session expires after 1 hour
+    app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(hours=1)
     session.init_app(app)
     db.init_app(app)
 
