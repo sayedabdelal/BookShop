@@ -7,10 +7,12 @@ import './Wishlist.css';
 
 function Wishlist() {
   const dispatch = useDispatch();
+
+  const isAuth = useSelector((state) => state.auth.isAuthenticated);
   
   // Fetch wishlist items on component mount
   useEffect(() => {
-    dispatch(fetchWishlist());
+    {isAuth && dispatch(fetchWishlist())}
   }, [dispatch]);
   
   // Extract wishlist state
@@ -29,10 +31,10 @@ function Wishlist() {
         setWishlistId(data.new_wishlist_item_id);
         // console.log(data.new_wishlist_item_id)
         dispatch(addItem({ ...product, id: shopId, wishlistId: data.new_wishlist_item_id }));
-        alert('Item added to wishlist');
+        
         
     } else {
-      alert('Item removed from wishlist');
+       
       //  updateWishlistPAGE
         dispatch(fetchWishlist());
     }
