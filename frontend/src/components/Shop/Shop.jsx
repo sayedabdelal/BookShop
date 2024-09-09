@@ -7,8 +7,10 @@ import { useQuery } from "@tanstack/react-query";
 import { useSelector } from 'react-redux';
 import './Shop.css';
 import './Pagination.css';
+import { ToastContainer } from 'react-toastify';
 
 function Shop() {
+   
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const booksPerPage = 20; // Set the number of books per page
@@ -84,8 +86,11 @@ function Shop() {
   return (
     <section className="new section" id="new">
       <h2 className="section__title">New Books</h2>
+      <ToastContainer />
       <div className="new__container container">
+        
         {currentBooks.map((book) => (
+          
           <BookCard
             key={book.id}
             imgSrc={book.image}
@@ -100,7 +105,9 @@ function Shop() {
             isInWishList={book.isInWishList}
             wishListId={book.wishListId}
           />
+         
         ))}
+        
       </div>
 
       {/* Pagination Controls */}

@@ -8,14 +8,14 @@ import { logoutUser, fetchCarts } from "../util/http";
 
 import { useSelector, useDispatch } from 'react-redux';
 import { useMutation, useQueries } from "@tanstack/react-query";
-import { fetchCartItems, clearCart  } from '../store/cartSlice';
+import { fetchCartItems, clearCart } from '../store/cartSlice';
 import { useEffect } from "react";
 import { clearUserId } from "../store/userSlice";
 import { fetchWishlist, clearWishList } from "../store/wishlistSlice";
 
 import DarkModeToggle from "../UI/DarkModeToggle";
 
- 
+
 // import {fetchCartItems} from '../store/cartSlice';
 // import {fetchWishlist} from '../store/wishlistSlice';
 
@@ -35,56 +35,69 @@ function RootPage() {
     const totalWishlistItems = wishlistItems.length;
 
     const darkMode = useSelector((state) => state.theme.darkMode);
-console.log('ROOOOOOOt', darkMode);
+    console.log('ROOOOOOOt', darkMode);
 
 
 
- // const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
- 
-
- // Function to check session status
- const checkSession = async () => {
-     try {
-         const response = await fetch("http://127.0.0.1:5000/check-session", {
-            credentials: 'include', // Send cookies along with request
-         });
-           console.log("response checkSession", response)
-         if (response.ok) {
-           console.log("response sucess", response)
-             dispatch(authActions.login());
-         } else {
-             dispatch(authActions.logout());
-             console.log('Session expired or not authenticated');
-         }
-     } catch (error) {
-         console.error('Error checking session:', error);
-         dispatch(authActions.logout()); // Log out on error
-     }
- };
-
- useEffect(() => {
-     // Check session immediately on load
-     checkSession();
-
-     // Set interval to check session every 15 minutes (900,000 milliseconds)
-     const intervalId = setInterval(checkSession, 9000);
-
-     // Cleanup interval on component unmount
-     return () => clearInterval(intervalId);
- }, [dispatch]);
+    // const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
 
+    // Function to check session status
+    const checkSession = async () => {
+        try {
+            const response = await fetch("http://127.0.0.1:5000/check-session", {
+                credentials: 'include', // Send cookies along with request
+            });
+            console.log("response checkSession", response);
+            if (response.ok) {
+                const data = await response.json();
+               
+                if (data.isAuthenticated) {
+                    // If authenticated, dispatch login
+                    dispatch(authActions.login());
+                } else {
+                    // If not authenticated, dispatch logout
+                    dispatch(clearCart());
+                    dispatch(clearWishList());
+                    dispatch(clearUserId());
+                    dispatch(authActions.logout());
+                  
+                    console.log('Session expired or not authenticated');
+                }
+            } else {
+                // If the response isn't OK (e.g., 401), dispatch logout
+                dispatch(authActions.logout());
+                console.log('Session expired or not authenticated');
+            }
+        } catch (error) {
+            console.error('Error checking session:', error);
+            dispatch(authActions.logout()); // Log out on error
+        }
+    };
+
+    useEffect(() => {
+        // Check session immediately on load
+        checkSession();
+
+        // Set interval to check session every 10 minutes
+        const intervalId = setInterval(checkSession, 600000);
+
+        // Cleanup interval on component unmount
+        return () => clearInterval(intervalId);
+    }, [dispatch]);
 
 
 
-useEffect(() => {
-  // Apply or remove the 'dark-theme' class based on darkMode state
-  if (darkMode) {
-    document.body.classList.add('dark-theme');
-  } else {
-    document.body.classList.remove('dark-theme');
-  }
-}, [darkMode]);
+
+
+    useEffect(() => {
+        // Apply or remove the 'dark-theme' class based on darkMode state
+        if (darkMode) {
+            document.body.classList.add('dark-theme');
+        } else {
+            document.body.classList.remove('dark-theme');
+        }
+    }, [darkMode]);
 
 
     useEffect(() => {
@@ -104,7 +117,7 @@ useEffect(() => {
     const mutation = useMutation({
         mutationFn: logoutUser,
         onSuccess: () => {
-            
+
             console.log('Logout successful');
             // dispatch(fetchWishlist());
             dispatch(clearCart());
@@ -138,7 +151,7 @@ useEffect(() => {
 
     return (
         <>
-            
+
             <header className="header" id="header">
                 <nav className="nav container">
                     <Link to="/" className="nav__logo">
@@ -179,11 +192,14 @@ useEffect(() => {
                         </Link>
 
                         {/* login button */}
-                        <i
-                            className="ri-user-3-line login-button"
-                            id="login-btn"
-                            onClick={handleLoginClick}
-                        />
+                        {!isAuth &&
+                            <i
+                                className="ri-user-3-line login-button"
+                                id="login-btn"
+                                onClick={handleLoginClick}
+                            />
+                            }       
+
 
                         {isAuth && (<i
                             className="ri-logout-box-line"
@@ -191,6 +207,10 @@ useEffect(() => {
                             onClick={handleLogot}
                         />
                         )}
+                         <i
+                            className="ri-search-line search-icon"
+                              
+                         />
                         {/* theme button */}
                         <DarkModeToggle />
                     </div>
@@ -202,7 +222,7 @@ useEffect(() => {
 
             </main>
             <Footer />
-        
+
         </>
     );
 }

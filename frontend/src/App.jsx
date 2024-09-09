@@ -22,6 +22,7 @@ import CartPage from "./pages/CartPage.jsx";
 import Wishlist from "./components/wishlist/Wishlist.jsx";
 import ErrorBoundary from "./pages/ErrorBoundary.jsx";
 import { useSelector } from "react-redux";
+import { ToastContainer } from "react-toastify";
 
 const router = createBrowserRouter([
   {
@@ -107,8 +108,10 @@ function App() {
   // const darkMode = useSelector((state) => state.theme.darkMode);
   // console.log('darkModeAppppp:', darkMode);
   return (
+    
     // <div className={darkMode ? 'dark-theme' : ''}>
     <QueryClientProvider client={queryClient}>
+      <ToastContainer />
       <RouterProvider router={router} />
     </QueryClientProvider>
     // </div>

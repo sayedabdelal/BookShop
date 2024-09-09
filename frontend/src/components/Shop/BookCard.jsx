@@ -5,6 +5,11 @@ import { useMutation } from '@tanstack/react-query';
 import { addItemToCart, removeItemFromCart, fetchCartItems } from '../../store/cartSlice';
 import { addItem, removeItem } from '../../store/wishlistSlice';
 import { addRemoveCart, addRemoveWishlist } from '../../util/http';
+import {  toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Don't forget this import for CSS
+
+
+ 
 
 
 
@@ -15,10 +20,14 @@ function BookCard({ imgSrc, title, discountPrice, originalPrice, rating, shopId,
 
     const [wishlistId, setWishlistId] = useState(null);
     const [cartItemId, setCartItemId] = useState(null);
+    const [alertMessage, setAlertMessage] = useState(null); // For controlling the alert message
+    const [alertSeverity, setAlertSeverity] = useState(''); // For setting alert type
 
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
+
+    const isAuth = useSelector(state => state.auth.isAuthenticated);
 
     // made a cart object
     madeObject(shopId, cart_item_id)
@@ -87,25 +96,48 @@ function BookCard({ imgSrc, title, discountPrice, originalPrice, rating, shopId,
 
             if (response && response.new_cart_item_id) {
                 // console.log('allllll', response);
-                setInCart(true);
+                
                 dispatch(addItemToCart({ ...product, id: shopId, cartItemId: response.new_cart_item_id }));
-                alert('Item added to cart');
-
+                toast.success('Item added to cart successfully!', {
+                    position: "top-center",
+                    autoClose: 3000,  // Auto close after 3 seconds
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                });
+                setInCart(true);
             } else {
                 setInCart(false);
                 // console.log('shopIdremove:', shopId);
                 // updateCart();
                 dispatch(removeItemFromCart(shopId));
                 dispatch(fetchCartItems());
-                alert('Item removed from cart');
+                toast.info('Item removed from wishlist.', {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
 
             }
         },
         onError: (error) => {
-            console.error(`Failed to ${inCart ? 'remove' : 'add'} item to cart:`, error);
-            alert(`Failed to ${inCart ? 'remove' : 'add'} item to cart. Please try again.`);
+            toast.error(`Failed to ${inCart ? 'remove' : 'add'} item to cart. Please try again.`, {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
         }
     });
+
 
     // Mutation for adding/removing from the wishlist
     const wishlistMutation = useMutation({
@@ -118,27 +150,56 @@ function BookCard({ imgSrc, title, discountPrice, originalPrice, rating, shopId,
                 setWishlistId(data.new_wishlist_item_id);
                 // console.log(data.new_wishlist_item_id)
                 dispatch(addItem({ ...product, id: shopId, wishlistId: data.new_wishlist_item_id }));
-                alert('Item added to wishlist');
+                toast.success('Item added to wishlist successfully!', {
+                    position: "top-center",
+                    autoClose: 3000, // Auto-close after 3 seconds
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
                 setInWishlist(true);
             } else {
                 dispatch(removeItem(shopId));
-                alert('Item removed from wishlist');
+                toast.info('Item removed from wishlist.', {
+                    position: "top-center",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                });
                 setInWishlist(false);
             }
+             // Remove the alert message after 3 seconds
+            setTimeout(() => setAlertMessage(null), 3000);
         },
         onError: (error) => {
-            console.error(`Failed to ${inWishlist ? 'remove' : 'add'} item to wishlist:`, error);
-            alert(`Failed to ${inWishlist ? 'remove' : 'add'} item to wishlist. Please try again.`);
+            // Toast notification for error
+            toast.error(`Failed to ${inWishlist ? 'remove' : 'add'} item to wishlist. Please try again.`, {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+            });
         }
     });
 
 
 
-
     function handleAddToCart() {
         let cartId = cartObject[shopId];
+        if(!isAuth) { 
+            navigate('/login'); 
+            return
+        }
 
-        if (inCart) {
+        if (inCart && isAuth) {
 
 
             cartMutation.mutate({ action: 'remove', cartItemId: cartItemId ? cartItemId : cartId });
@@ -151,8 +212,12 @@ function BookCard({ imgSrc, title, discountPrice, originalPrice, rating, shopId,
 
     function handleAddToWishList() {
         let wishId = wishlistObject[shopId];
+        if(!isAuth) { 
+            navigate('/login'); 
+            return
+        }
 
-        if (inWishlist) {
+        if (inWishlist && isAuth) {
             // console.log(wishlistId)
             wishlistMutation.mutate({ action: 'remove', wishlistId: wishlistId ? wishlistId : wishId });
         } else {
@@ -169,6 +234,7 @@ function BookCard({ imgSrc, title, discountPrice, originalPrice, rating, shopId,
     return (
         <a className="new__card swiper-slide">
             <img src={`/${imgSrc}`} alt={title} className="new__img" />
+            
             <div className="add-card">
                 <h3 className="new__title">{title}</h3>
                 <div className="new__prices">
@@ -203,8 +269,11 @@ function BookCard({ imgSrc, title, discountPrice, originalPrice, rating, shopId,
             </div>
             <button className="button Cartbtn" onClick={handleAddToCart}>
                     {inCart ? 'Remove from Cart' : 'Add To Cart'}
-                </button>
+            </button>
+
+           
         </a>
+        
     );
 }
 
