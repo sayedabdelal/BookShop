@@ -2,9 +2,11 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import CartItems from './CartItems';
 import CartSummary from './CartSummary';
-import { updateQuantity, removeItemFromCart, fetchCartItems } from '../../store/cartSlice'; // Ensure the correct import path
+import { updateQuantity, removeItemFromCart, fetchCartItems, clearCart } from '../../store/cartSlice'; // Ensure the correct import path
 import './cart.css';
 import LoadingIndicator from '../../UI/LoadingIndicator';
+import { ToastContainer } from 'react-toastify';
+import { use } from 'framer-motion/client';
 
 function Cart() {
  
@@ -13,15 +15,28 @@ function Cart() {
   // console.log("items",cartItems)
 
   
-  
+  const isAuth = useSelector((state) => state.auth.isAuthenticated);
   // Extracting items, status, and error from the cart state
   const { items, status, error } = useSelector((state) => state.cart);
   // console.log('items:', items);
+  let allBooks = [];
+ 
+  if (!isAuth) {
+    useEffect(() => { 
+      console.log('clear cart');
+      dispatch(clearCart());
+     
+        
+    }, [isAuth]);
+
+    // dispatch(fetchCartItems());
+  }
 
   useEffect(() => {
+    
     // Fetch cart items when the component mounts
-    dispatch(fetchCartItems());
-    console.log('cart fetch');
+    {isAuth && dispatch(fetchCartItems()) }
+     
   }, [dispatch]);
 
 
@@ -41,7 +56,7 @@ function Cart() {
   // console.log('cartItems from Redux:', items);
 
   // Prepare the list of books with quantities
-  let allBooks = [];
+
 
   if (status === 'succeeded') {
     allBooks = items.map(item => ({
@@ -75,13 +90,16 @@ function Cart() {
 
   return (
     <div className="cart-container">
+      <ToastContainer />
       {/* Render CartItems with the list of books, quantity change, and remove item handlers */}
       <CartItems
+        
         itemsCart={allBooks} // Passing the prepared books with quantities
         onQuantityChange={handleQuantityChange}
         onRemoveItem={handleRemoveItem}
 
       />
+     
       {/* Render CartSummary with subtotal, shipping, and total */}
       <CartSummary subtotal={subtotal} shipping={shipping} total={total} />
     </div>

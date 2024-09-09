@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { increaseQuantity, decreaseQuantity, removeItemFromCart, fetchCartItems } from '../../store/cartSlice'; // Ensure correct import path
 import { useMutation } from '@tanstack/react-query';
 import { addRemoveCart } from '../../util/http';
+import {  toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function CartItems({ itemsCart }) {
   const dispatch = useDispatch();
@@ -14,17 +16,32 @@ function CartItems({ itemsCart }) {
     onSuccess: (response) => {
       if (response && response.new_cart_item_id) {
         dispatch(addItemToCart({ ...response.product, id: response.shopId, cartItemId: response.new_cart_item_id }));
-        alert('Item added to cart');
+        
       } else {
-        alert('Item removed from cart');
-        // dispatch(removeItemFromCart(id));
+        toast.info('Item removed from cart.', {
+          position: "top-center",
+          autoClose: 1000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+      });
         
         dispatch(fetchCartItems());
         
       }
     },
     onError: (error) => {
-      console.error('Error:', error);
+      toast.error(`Failed to 'remove' item to cart. Please try again.`, {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+    });
     },
   });
 
@@ -47,6 +64,7 @@ function CartItems({ itemsCart }) {
 
   return (
     <div className="cart-items-section">
+      
       <h2 className="cart-title">Shopping Cart</h2>
       <div className="cart-items">
         {itemsCart.map(item => (
@@ -82,6 +100,7 @@ function CartItems({ itemsCart }) {
           </div>
         ))}
       </div>
+       
     </div>
   );
 }
