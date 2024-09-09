@@ -26,6 +26,24 @@
   .testimonial__stars {
     color: var(--first-color);
   }
+  .testimonial__description {
+    margin-bottom: 1.25rem;
+    font-size: var(--small-font-size);
+    line-height: 1.5;
+    overflow-wrap: break-word;
+    text-align: justify;
+    max-height: 5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: max-height 0.3s ease-in-out; /* Smooth transition */
+}
+
+/* On hover, expand to show full content */
+.testimonial__description:hover {
+    max-height: none; /* Removes the height restriction */
+    overflow: visible; /* Makes sure the full content is visible */
+}
+
 
   @media screen and (max-width: 320px) { 
     .testimonial__card {

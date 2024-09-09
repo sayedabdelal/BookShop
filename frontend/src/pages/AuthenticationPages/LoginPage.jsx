@@ -25,7 +25,7 @@ function LoginPage() {
         
           // dispatch(authActions.login(data.user_id));
           dispatch(authActions.login());
-        navigate("/user");
+        navigate("/");
       } else {
         setErrors({ email: data.error });
       }

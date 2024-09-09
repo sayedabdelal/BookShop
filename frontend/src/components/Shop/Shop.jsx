@@ -8,12 +8,15 @@ import { useSelector } from 'react-redux';
 import './Shop.css';
 import './Pagination.css';
 import { ToastContainer } from 'react-toastify';
+import './Search.css';
 
 function Shop() {
-   
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const booksPerPage = 20; // Set the number of books per page
+
+  // Search state
+  const [searchQuery, setSearchQuery] = useState('');
 
   // Fetch existing books
   const { data: books, isError, isLoading, error } = useQuery({
@@ -62,13 +65,17 @@ function Shop() {
       wishListId: isInWishList ? formattedWishListItems.get(book.id).id : null,
     };
   });
-  console.log(booksStatus);
+
+  // Filter books based on the search query
+  const filteredBooks = booksStatus.filter(book =>
+    book.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   // Pagination logic
-  const totalPages = Math.ceil(booksStatus.length / booksPerPage);
+  const totalPages = Math.ceil(filteredBooks.length / booksPerPage);
   const startIndex = (currentPage - 1) * booksPerPage;
   const endIndex = startIndex + booksPerPage;
-  const currentBooks = booksStatus.slice(startIndex, endIndex);
+  const currentBooks = filteredBooks.slice(startIndex, endIndex);
 
   // Handle page change
   const goToNextPage = () => {
@@ -82,32 +89,50 @@ function Shop() {
       setCurrentPage(prevPage => prevPage - 1);
     }
   };
-  
+
+  // Handle search input change
+  const handleSearchInputChange = (e) => {
+    setSearchQuery(e.target.value);
+    setCurrentPage(1); // Reset pagination on new search
+  };
+
   return (
     <section className="new section" id="new">
       <h2 className="section__title">New Books</h2>
       <ToastContainer />
+
+      {/* Search input */}
+      <form action="" className="search__form">
+        <input
+          type="search"
+          className="search__input"
+          placeholder="What are you looking for?"
+          value={searchQuery}
+          onChange={handleSearchInputChange}
+        />
+      </form>
+
       <div className="new__container container">
-        
-        {currentBooks.map((book) => (
-          
-          <BookCard
-            key={book.id}
-            imgSrc={book.image}
-            title={book.title}
-            discountPrice={book.discountPrice}
-            originalPrice={book.price}
-            rating={book.rating}
-            shopId={book.id}
-            shopDes={book.description}
-            isInCart={book.isInCart}
-            cart_item_id={book.cartItemId}
-            isInWishList={book.isInWishList}
-            wishListId={book.wishListId}
-          />
-         
-        ))}
-        
+        {currentBooks.length > 0 ? (
+          currentBooks.map((book) => (
+            <BookCard
+              key={book.id}
+              imgSrc={book.image}
+              title={book.title}
+              discountPrice={book.discountPrice}
+              originalPrice={book.price}
+              rating={book.rating}
+              shopId={book.id}
+              shopDes={book.description}
+              isInCart={book.isInCart}
+              cart_item_id={book.cartItemId}
+              isInWishList={book.isInWishList}
+              wishListId={book.wishListId}
+            />
+          ))
+        ) : (
+          <p>No results found</p>
+        )}
       </div>
 
       {/* Pagination Controls */}

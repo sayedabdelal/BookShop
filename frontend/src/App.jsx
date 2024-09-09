@@ -23,6 +23,7 @@ import Wishlist from "./components/wishlist/Wishlist.jsx";
 import ErrorBoundary from "./pages/ErrorBoundary.jsx";
 import { useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
+ 
 
 const router = createBrowserRouter([
   {
@@ -42,14 +43,14 @@ const router = createBrowserRouter([
         path: "signup",
         element: <SignupPage />,
       },
-      {
-        path: "user", // This is the protected route
-        element: (
-          <PrivateRoute>
-            <UserPage />
-          </PrivateRoute>
-        ),
-      },
+      // {
+      //   path: "user", // This is the protected route
+      //   element: (
+      //     <PrivateRoute>
+      //       <UserPage />
+      //     </PrivateRoute>
+      //   ),
+      // },
       {
         path: "discount",
         element: <DiscountPage />,
@@ -90,6 +91,7 @@ const router = createBrowserRouter([
       // other routes...
     ],
   },
+  
   // {
   //   path: 'discount',
 

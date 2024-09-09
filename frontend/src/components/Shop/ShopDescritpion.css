@@ -86,6 +86,29 @@
   background-color: #2980b9;
 }
 
+.dark-theme .product-section {
+  background-color: #333;
+  color: #ddd;
+}
+
+.dark-theme .product-title,
+.dark-theme .product-author,
+.dark-theme .product-price,
+.dark-theme .discount-price,
+.dark-theme .product-description,
+.dark-theme .product-meta,
+.dark-theme .buy-now-btn {
+  color: #ddd;
+}
+
+.dark-theme .buy-now-btn {
+  background-color: #2980b9;
+}
+
+.dark-theme .buy-now-btn:hover {
+  background-color: #1c598a;
+}
+
 /* Responsive Styles */
 @media (max-width: 768px) {
   .product-section {
@@ -132,7 +155,6 @@
     padding: 8px 16px;
   }
 }
-
 
 /* 
    .book-card {

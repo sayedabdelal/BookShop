@@ -14,7 +14,7 @@ import { clearUserId } from "../store/userSlice";
 import { fetchWishlist, clearWishList } from "../store/wishlistSlice";
 
 import DarkModeToggle from "../UI/DarkModeToggle";
-
+ 
 
 // import {fetchCartItems} from '../store/cartSlice';
 // import {fetchWishlist} from '../store/wishlistSlice';
@@ -110,7 +110,7 @@ function RootPage() {
 
 
     const handleLoginClick = () => {
-        navigate("/user");
+        navigate("/login");
     };
 
     // Use React Query's useMutation to handle logout
@@ -159,6 +159,7 @@ function RootPage() {
                         E-Book
                     </Link>
                     <div className="nav__menu">
+                        
                         <ul className="nav__list">
                             <LI to="/" iconClass="ri-home-3-fill" text="Home" />
                             <LI to="shop" iconClass="ri-shopping-bag-fill" text="Shop" />
@@ -207,10 +208,8 @@ function RootPage() {
                             onClick={handleLogot}
                         />
                         )}
-                         <i
-                            className="ri-search-line search-icon"
-                              
-                         />
+
+                        
                         {/* theme button */}
                         <DarkModeToggle />
                     </div>

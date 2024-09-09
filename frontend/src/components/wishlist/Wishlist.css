@@ -146,6 +146,7 @@ header h1 {
     background-color: #e60000; /* Darker red on hover */
 }
 
+
 /* Responsive design */
 @media (max-width: 768px) {
     .wishlist-item {
