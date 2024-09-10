@@ -9,7 +9,6 @@ from flask_mail import Mail
 
 db = SQLAlchemy()
 session = Session()
-mail = Mail()
 
 # Load environment variables from the .env file
 load_dotenv()
@@ -23,15 +22,9 @@ def create_app():
     app.config['SESSION_COOKIE_SECURE'] = os.getenv('SESSION_COOKIE_SECURE')
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
     app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(seconds=int(os.getenv('PSLT')))
-    app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
-    app.config['MAIL_PORT'] = os.getenv('MAIL_PORT')
-    app.config['MAIL_USE_TLS'] = os.getenv('MAIL_USE_TLS')
-    app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
-    app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
 
     session.init_app(app)
     db.init_app(app)
-    mail.init_app(app)
 
     from .views.login import login as login_blueprint
     from .views.register import register as register_blueprint
