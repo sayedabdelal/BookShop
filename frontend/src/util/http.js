@@ -18,7 +18,7 @@ export async function NewUser({ name, email, password }) {
       body: JSON.stringify({ name, email, password }),
       credentials: 'include'  // Ensure cookies are included in requests
     });
-    console.log('response:', response.error);
+     
 
     if (!response.ok) {
       const responseData = await response.json();
@@ -26,7 +26,7 @@ export async function NewUser({ name, email, password }) {
     }
 
     const data = await response.json();
-    console.log('User created:', data);
+    
     return data;
   } catch (error) {
     console.error('Error creating user:', error);
@@ -55,7 +55,7 @@ export async function fetchUsers(data, dispatch) {
     
     // Store user_id in local storage
     if (responseData.user_id) {
-      console.log('User ID:', responseData.user_id);
+     
       // localStorage.setItem('user_id', responseData.user_id);
       dispatch(setUserId(responseData.user_id));
     }
@@ -105,10 +105,9 @@ export async function addRemoveCart({ action, productId, quantity, cartItemId })
   };
 
   try {
-    console.log('options:', options);
-    console.log('url:', url);
+   
     const response = await fetch(url, options);
-    console.log('response:', response);
+    
     
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -117,10 +116,10 @@ export async function addRemoveCart({ action, productId, quantity, cartItemId })
     const data = await response.json();
 
     if (isAddAction) {
-      console.log('Item added to cart:', data);
+      
       return data; // Return the response data after adding to the cart
     } else {
-      console.log('Item removed from cart:', data);
+      
       return 'Item removed from cart successfully';
     }
   } catch (error) {
@@ -143,13 +142,13 @@ export async function addRemoveWishlist({ action, productId, wishlistId }) {
     credentials: 'include',  // Ensure cookies are included in requests
     body: JSON.stringify(action === 'add' ? { productId } : { wishlistId })
   };
-  console.log("option",options)
+  
 
   try {
     console.log('options:',url+ options.body);
     const response = await fetch(url, options);
     
-    console.log('response:', response);
+    
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -159,11 +158,11 @@ export async function addRemoveWishlist({ action, productId, wishlistId }) {
    
 
     if (action === 'add') {
-      console.log('Item added to wishlist:', data);
+       
       return data;  // Return the wishlist item ID after adding to the wishlist
      
     } else {
-      console.log('Item removed from wishlist:', data);
+     
       return 'Item removed from wishlist successfully';  // Return a success message after removing from the wishlist
     }
   } catch (error) {
@@ -214,14 +213,14 @@ export async function fetchCarts() {
   const userId = useSelector((state) => state.user.user_id);
 
   // const userId = localStorage.getItem('user_id');
-  console.log('userIstored:', userId);
+  
 
   if (!userId) {
     throw new Error('User ID not found in localStorage.');
   }
 
   const response = await fetch(`http://127.0.0.1:5000/api/cart_items?user_id=${userId}`);
-    console.log('responsefffff:', response);
+   
   if (!response.ok) {
     throw new Error(`HTTP error! Fetch cart status: ${response.status}`);
   }
@@ -248,9 +247,75 @@ export async function logoutUser() {
     },
     credentials: 'include', // Ensure cookies are sent with the request
   });
-  console.log("log status--->" ,response.status)
+ 
 
   if (!response.ok) {
     throw new Error('Logout failed');
   }
 }
+
+
+// export async function resetEmail(email, password) {
+//   try {
+//     const response = await fetch('http://127.0.0.1:5000/reset_password_request', {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify({ email, password }),
+//     });
+
+//     console.log('response:', response);
+
+//     if (!response.ok) {
+//       throw new Error(`${response.status} - ${response.statusText}`);
+//     }
+
+//     const data = await response.json();
+//     console.log('data:', data);
+//     return data;
+//   } catch (error) {
+//     console.error('Error:', error);
+//     throw error;
+//   }
+// }
+
+
+// util/http.js
+export const requestResetToken = async (email) => {
+  const response = await fetch('http://127.0.0.1:5000/reset_password_request', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email }),
+  });
+  const data = await response.json();
+  console.log(data)
+  if (!response.ok) throw new Error('Failed to request token');
+  return data;
+};
+
+export const resetPassword = async (token, password) => {
+  try {
+    const response = await fetch(`http://127.0.0.1:5000/reset_password/${token}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password }),
+    });
+    console.log('response:', response);
+
+    // Parse the response JSON
+    const data = await response.json();
+
+    if (!response.ok) {
+      
+      data.error = data.error || 'Failed to reset password';
+      throw new Error(data.error || 'Failed to reset password');
+    }
+    console.log('data resssset:', data);
+    return data;
+    
+  } catch (error) {
+    console.error('Error:', error.message);
+    throw error;  // You can handle the error on the frontend here (e.g., show an alert)
+  }
+};

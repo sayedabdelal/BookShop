@@ -156,7 +156,7 @@ function RootPage() {
                 <nav className="nav container">
                     <Link to="/" className="nav__logo">
                         <i className="ri-book-3-line" />
-                        E-Book
+                        E-Shop
                     </Link>
                     <div className="nav__menu">
                         

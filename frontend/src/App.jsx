@@ -23,6 +23,7 @@ import Wishlist from "./components/wishlist/Wishlist.jsx";
 import ErrorBoundary from "./pages/ErrorBoundary.jsx";
 import { useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage.jsx";
  
 
 const router = createBrowserRouter([
@@ -91,6 +92,10 @@ const router = createBrowserRouter([
       // other routes...
     ],
   },
+  {
+    path: "forgot-password",
+    element: <ForgotPasswordPage />,
+  }
   
   // {
   //   path: 'discount',
