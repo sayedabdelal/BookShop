@@ -255,28 +255,67 @@ export async function logoutUser() {
 }
 
 
-export async function resetEmail(email, password) {
-  try {
-    const response = await fetch('http://127.0.0.1:5000/reset_password_request', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-    });
+// export async function resetEmail(email, password) {
+//   try {
+//     const response = await fetch('http://127.0.0.1:5000/reset_password_request', {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify({ email, password }),
+//     });
 
+//     console.log('response:', response);
+
+//     if (!response.ok) {
+//       throw new Error(`${response.status} - ${response.statusText}`);
+//     }
+
+//     const data = await response.json();
+//     console.log('data:', data);
+//     return data;
+//   } catch (error) {
+//     console.error('Error:', error);
+//     throw error;
+//   }
+// }
+
+
+// util/http.js
+export const requestResetToken = async (email) => {
+  const response = await fetch('http://127.0.0.1:5000/reset_password_request', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email }),
+  });
+  const data = await response.json();
+  console.log(data)
+  if (!response.ok) throw new Error('Failed to request token');
+  return data;
+};
+
+export const resetPassword = async (token, password) => {
+  try {
+    const response = await fetch(`http://127.0.0.1:5000/reset_password/${token}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ password }),
+    });
     console.log('response:', response);
 
-    if (!response.ok) {
-      throw new Error(`${response.status} - ${response.statusText}`);
-    }
-
+    // Parse the response JSON
     const data = await response.json();
-    console.log('data:', data);
-    return data;
-  } catch (error) {
-    console.error('Error:', error);
-    throw error;
-  }
-}
 
+    if (!response.ok) {
+      
+      data.error = data.error || 'Failed to reset password';
+      throw new Error(data.error || 'Failed to reset password');
+    }
+    console.log('data resssset:', data);
+    return data;
+    
+  } catch (error) {
+    console.error('Error:', error.message);
+    throw error;  // You can handle the error on the frontend here (e.g., show an alert)
+  }
+};

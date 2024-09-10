@@ -16,7 +16,6 @@ function Home() {
       <HomeContainer />
       <ServicesContainer />
       <JoinContainer joinImage = {joinImage}/>
-      
     </>
   );
 }
