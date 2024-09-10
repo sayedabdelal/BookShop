@@ -29,7 +29,7 @@ class User(db.Model):
             'cart': self.cart.to_dict() if self.cart else None
         }
     
-    def get_reset_token(self, expires_in_sec=20):
+    def get_reset_token(self, expires_in_sec=600):
         '''This method return token to reset password'''
         encoded_data = jwt.encode(
             {'user_id': self.id, 'expire': time() + expires_in_sec},
