@@ -1,28 +1,11 @@
-from flask import Blueprint, request, jsonify, session
-from flask_mail import Message
 import bcrypt
+from flask import Blueprint, request, jsonify
 from backend.models.user import User
-from backend import mail, db
+from backend import db
 
 
 reset = Blueprint('reset', __name__)
 
-
-# def send_email_to_reset(user):
-#     token = user.get_reset_token()
-
-#     msg = Message(
-#         'Password Reset Request',
-#         sender='noreply@demo.com',
-#         recipients=[user.email]
-#     )
-
-#     msg.body = f'''To set your password, visit the following link:
-# {url_for('reset_token', token=token, _external=True)}
-
-# If you did not make this request simply ignore this email and no changes will be made.
-# '''
-#     mail.send(msg)
 
 @reset.route('/reset_password_request', methods=['GET', 'POST'])
 def reset_password_request():
@@ -42,15 +25,21 @@ def reset_password_request():
         'reset_token': token
         })
 
-@reset.route('/reset_password/<token>', methods=['GET', 'POST'])
-def reset_password_token(token):
-    data = request.get_json()
-    password = data.get('password')
-    user = User.verify_reset_token(token)
-    if not user:
-        return jsonify({'Error: Invalid or expired token!'}), 400
 
-    hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
-    user.password = hashed_password
-    db.session.commit()
-    return jsonify({'message': 'Your password has been updated! You are now able to log in'})
+@reset.route('/reset_password/<token>', methods=['POST'])
+def reset_password_token(token):
+    try:
+        data = request.get_json()
+        password = data.get('password')
+        user = User.verify_reset_token(token)
+
+        if not user:
+            return jsonify({'error': 'Invalid or expired token!'}), 400
+
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+        user.password = hashed_password
+        db.session.commit()
+        return jsonify({'message': 'Your password has been updated! You can now log in'}), 200
+
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
