@@ -43,13 +43,14 @@
   font-size: 20px;
   color: #e67e22;
   margin-bottom: 5px;
+  text-decoration: line-through;
 }
 
 .discount-price {
   font-size: 18px;
   color: #aeadad;
   margin-bottom: 15px;
-  text-decoration: line-through;
+  
 }
 
 .product-description {

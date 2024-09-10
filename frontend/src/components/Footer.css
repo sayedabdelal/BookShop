@@ -66,7 +66,23 @@
     margin-top: 5rem;
   }
 
+  .info h3 {
+    margin: 2rem;
+    color: darkcyan;
+  }
+  .footer__links {
+    margin: 2.2rem;
+    a {
+       &:focus, &:hover {
+          color:rgb(154, 158, 57);
+       } 
 
+    i {
+       color: rgb(18, 64, 179);
+    }
+  }
+    
+  } 
 @media screen and  (min-width: 1150px) {
     .footer {
         padding-block: 6rem 3rem;

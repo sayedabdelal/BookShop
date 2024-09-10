@@ -89,7 +89,7 @@ function ForgotPassword() {
             </div>
           </div>
           <button type="submit" className="forgot-password__button button" disabled={requestTokenMutation.isLoading}>
-            {requestTokenMutation.isLoading ? 'Requesting Token...' : 'Request Reset Token'}
+            {requestTokenMutation.isLoading ? 'Requesting Token...' : 'Request Reset Password'}
           </button>
         </form>
       ) : (

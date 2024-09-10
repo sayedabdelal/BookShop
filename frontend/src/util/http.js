@@ -196,7 +196,7 @@ export async function submitCheckout(formData, cartItems) {
       }),
       credentials: 'include'  // Ensure cookies are included in requests
     });
-
+    console.log('response:', response);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -290,7 +290,7 @@ export const requestResetToken = async (email) => {
   });
   const data = await response.json();
   console.log(data)
-  if (!response.ok) throw new Error('Failed to request token');
+  if (!response.ok) throw new Error(data.error || 'Failed to request reset token');
   return data;
 };
 
