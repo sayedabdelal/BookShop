@@ -97,7 +97,7 @@ function LoginPage() {
           <span className="login__signup">
             Don't have an account? <Link to="../signup" id="sign-up">Sign Up</Link>
           </span>
-          <a href="#" className="login__forgot">Forgot your password?</a>
+          <Link to="/forgot-password" className="login__forgot">Forgot your password?</Link>
           <button type="submit" className="login__button button">Log In</button>
         </div>
       </form>

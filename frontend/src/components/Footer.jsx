@@ -7,7 +7,7 @@ function Footer() {
   <div className="footer__container container grid">
     <div>
       <a href="#" className="footer__logo">
-        <i className="ri-book-3-line" /> E-book
+        <i className="ri-book-3-line" /> E-shop
       </a>
       <p className="footer__description">
         Find and explore the best <br />

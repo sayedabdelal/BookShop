@@ -67,6 +67,9 @@
     color: var(--title-color);
     margin-bottom: 1.25rem;
 }
+.login__forgot:hover {
+    color: rgb(86, 232, 220);
+}
 
 .login__button {
     width: 100%;
@@ -84,6 +87,7 @@
 .show-login {
     top: 0;
 }
+ 
 @media screen and (min-width: 1150px) {
   .login {
     display: flex;
@@ -94,6 +98,7 @@
     width: 400px;
   }
 }
+
 
 /*  */
 

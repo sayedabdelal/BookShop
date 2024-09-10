@@ -5,11 +5,11 @@ import { useMutation } from '@tanstack/react-query';
 import { addItemToCart, removeItemFromCart, fetchCartItems } from '../../store/cartSlice';
 import { addItem, removeItem } from '../../store/wishlistSlice';
 import { addRemoveCart, addRemoveWishlist } from '../../util/http';
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; // Don't forget this import for CSS
 
 
- 
+
 
 
 
@@ -96,7 +96,7 @@ function BookCard({ imgSrc, title, discountPrice, originalPrice, rating, shopId,
 
             if (response && response.new_cart_item_id) {
                 // console.log('allllll', response);
-                
+
                 dispatch(addItemToCart({ ...product, id: shopId, cartItemId: response.new_cart_item_id }));
                 toast.success('Item added to cart successfully!', {
                     position: "top-center",
@@ -113,7 +113,7 @@ function BookCard({ imgSrc, title, discountPrice, originalPrice, rating, shopId,
                 // updateCart();
                 dispatch(removeItemFromCart(shopId));
                 dispatch(fetchCartItems());
-                toast.info('Item removed from wishlist.', {
+                toast.info('Item removed from cart.', {
                     position: "top-center",
                     autoClose: 3000,
                     hideProgressBar: false,
@@ -173,7 +173,7 @@ function BookCard({ imgSrc, title, discountPrice, originalPrice, rating, shopId,
                 });
                 setInWishlist(false);
             }
-             // Remove the alert message after 3 seconds
+            // Remove the alert message after 3 seconds
             setTimeout(() => setAlertMessage(null), 3000);
         },
         onError: (error) => {
@@ -194,8 +194,8 @@ function BookCard({ imgSrc, title, discountPrice, originalPrice, rating, shopId,
 
     function handleAddToCart() {
         let cartId = cartObject[shopId];
-        if(!isAuth) { 
-            navigate('/login'); 
+        if (!isAuth) {
+            navigate('/login');
             return
         }
 
@@ -212,8 +212,8 @@ function BookCard({ imgSrc, title, discountPrice, originalPrice, rating, shopId,
 
     function handleAddToWishList() {
         let wishId = wishlistObject[shopId];
-        if(!isAuth) { 
-            navigate('/login'); 
+        if (!isAuth) {
+            navigate('/login');
             return
         }
 
@@ -234,14 +234,20 @@ function BookCard({ imgSrc, title, discountPrice, originalPrice, rating, shopId,
     return (
         <a className="new__card swiper-slide">
             <img src={`/${imgSrc}`} alt={title} className="new__img" />
-            
+
             <div className="add-card">
                 <h3 className="new__title">{title}</h3>
                 <div className="new__prices">
-                    {discountPrice && <span className="new__discount">${discountPrice}</span>}
-                    {!discountPrice && <span className="new__discount"></span>}
-                    <span className="new__price">${originalPrice}</span>
+                    {discountPrice ? (
+                        <>
+                            <span className="new__discount">${discountPrice}</span>
+                            <span className="new__price">${originalPrice}</span>
+                        </>
+                    ) : (
+                        <span className="new__discount">${originalPrice}</span>
+                    )}
                 </div>
+
                 <div className="new__stars">
                     {Array.from({ length: 5 }).map((_, index) => (
                         <i
@@ -257,7 +263,7 @@ function BookCard({ imgSrc, title, discountPrice, originalPrice, rating, shopId,
                     ))}
                 </div>
 
-              
+
                 <div className="featured__actions">
                     <button onClick={handleAddToWishList}>
                         <i className={inWishlist ? "ri-heart-3-fill dark" : "ri-heart-3-line"} />
@@ -268,12 +274,12 @@ function BookCard({ imgSrc, title, discountPrice, originalPrice, rating, shopId,
                 </div>
             </div>
             <button className="button Cartbtn" onClick={handleAddToCart}>
-                    {inCart ? 'Remove from Cart' : 'Add To Cart'}
+                {inCart ? 'Remove from Cart' : 'Add To Cart'}
             </button>
 
-           
+
         </a>
-        
+
     );
 }
 
