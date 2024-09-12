@@ -5,7 +5,6 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_session import Session
-from flask_mail import Mail
 
 db = SQLAlchemy()
 session = Session()
@@ -39,6 +38,7 @@ def create_app():
     from .views.wishlist import wishlist as wishlist_blueprint
     from .views.details import details as details_blueprint
     from .views.reset_password import reset as reset_blueprint
+    from .views.admin import admin as admin_blueprint
 
     app.register_blueprint(login_blueprint, url_prefix='/')
     app.register_blueprint(register_blueprint, url_prefix='/')
@@ -53,6 +53,7 @@ def create_app():
     app.register_blueprint(wishlist_blueprint, url_prefix='/')
     app.register_blueprint(details_blueprint, url_prefix='/')
     app.register_blueprint(reset_blueprint, url_prefix='/')
+    app.register_blueprint(admin_blueprint, url_prefix='/')
 
     with app.app_context():
         db.create_all()
