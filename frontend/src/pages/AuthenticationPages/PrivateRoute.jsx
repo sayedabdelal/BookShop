@@ -7,15 +7,17 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const PrivateRoute = ({ children }) => {
   const isAuth = useSelector(state => state.auth.isAuthenticated);
+  const isAdmin = useSelector(state => state.auth.isAdmin);
+  console.log("isAdmin", isAdmin);
   const navigate = useNavigate();
-
+   
   const location = useLocation();
   useEffect(() => {
     // Save the isAuth value to local storage
-    localStorage.setItem('isAuthenticated', isAuth);
-  }, [isAuth]); // This will run every time isAuth changes
+    localStorage.setItem('isAuthenticated', isAdmin);
+  }, [isAdmin]); // This will run every time isAuth changes
    
-  if (!isAuth) {
+  if (!isAdmin) {
     // Redirect the user to login and store the original path
     return <Navigate to="/login" state={{ from: location }} />;
   }  

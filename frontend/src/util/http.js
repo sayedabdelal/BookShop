@@ -50,6 +50,7 @@ export async function fetchUsers(data, dispatch) {
       const responseData = await response.json();
       throw new Error(responseData.error || 'Unknown error');
     }
+     
     
     const responseData = await response.json();
     
@@ -145,7 +146,7 @@ export async function addRemoveWishlist({ action, productId, wishlistId }) {
   
 
   try {
-    console.log('options:',url+ options.body);
+    
     const response = await fetch(url, options);
     
     
@@ -196,7 +197,7 @@ export async function submitCheckout(formData, cartItems) {
       }),
       credentials: 'include'  // Ensure cookies are included in requests
     });
-    console.log('response:', response);
+   
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -289,7 +290,7 @@ export const requestResetToken = async (email) => {
     body: JSON.stringify({ email }),
   });
   const data = await response.json();
-  console.log(data)
+  
   if (!response.ok) throw new Error(data.error || 'Failed to request reset token');
   return data;
 };
@@ -301,7 +302,7 @@ export const resetPassword = async (token, password) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ password }),
     });
-    console.log('response:', response);
+    
 
     // Parse the response JSON
     const data = await response.json();
@@ -311,7 +312,7 @@ export const resetPassword = async (token, password) => {
       data.error = data.error || 'Failed to reset password';
       throw new Error(data.error || 'Failed to reset password');
     }
-    console.log('data resssset:', data);
+   
     return data;
     
   } catch (error) {
@@ -319,3 +320,33 @@ export const resetPassword = async (token, password) => {
     throw error;  // You can handle the error on the frontend here (e.g., show an alert)
   }
 };
+
+/* ********************************************/
+
+export  async function getEmails() {
+  const response = await fetch('http://127.0.0.1:5000/admin_get_users');
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch email');
+  }
+  
+  const data = await response.json();
+
+  console.log("all emails",data)
+  return  data.users;
+}
+
+
+export  async function getProducts() {
+  const response = await fetch('http://127.0.0.1:5000/admin_getsers');
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch email');
+  }
+  
+  const data = await response.json();
+
+  console.log("all emails",data)
+  return  data.users;
+}
+

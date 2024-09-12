@@ -24,6 +24,11 @@ import ErrorBoundary from "./pages/ErrorBoundary.jsx";
 import { useSelector } from "react-redux";
 import { ToastContainer } from "react-toastify";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage.jsx";
+ import DashboardPage from "./pages/dashboard/DashboardPage.jsx";
+import Layout from "./pages/dashboard/Layout.jsx";
+ 
+import Users from "./pages/dashboard/users/Users.jsx";
+import Products from "./pages/dashboard/products/Products.jsx";
  
 
 const router = createBrowserRouter([
@@ -92,6 +97,34 @@ const router = createBrowserRouter([
       // other routes...
     ],
   },
+  {
+    path: "dashboard",
+    element: (
+      <PrivateRoute>
+        <Layout />
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        path: "",
+        element: (
+          <PrivateRoute>
+            <Users />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "products",
+        element: (
+          <PrivateRoute>
+            <Products />
+          </PrivateRoute>
+        ),
+      },
+    ],
+  },
+  
+     
   {
     path: "forgot-password",
     element: <ForgotPasswordPage />,

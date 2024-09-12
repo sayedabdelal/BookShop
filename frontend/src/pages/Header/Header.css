@@ -159,7 +159,7 @@
   }
   @media screen and (min-width: 576px) {
     .search__form {
-        width: 500px;
+        width: 350px;
         margin-inline: auto;
     }
     .login__form,

@@ -1,30 +1,43 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
-import { fetchUsers} from "../../util/http";
+import { fetchUsers, logoutUser} from "../../util/http";
 import "./log.css";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { authActions } from '../../store/auth';
-import { fetchCartItems } from '../../store/cartSlice';
-import { fetchWishlist } from "../../store/wishlistSlice";
+import { clearCart, fetchCartItems } from '../../store/cartSlice';
+import { clearWishList, fetchWishlist } from "../../store/wishlistSlice";
+import { clearUserId } from "../../store/userSlice";
+
 
 
 function LoginPage() {
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isAdmin = useSelector(state => state.auth.isAdmin);
+  const isAuth = useSelector(state=> state.auth.isAuthenticated);
+  console.log(isAdmin, isAuth)
 
   const loginMutation = useMutation({
     mutationFn: (userData) => fetchUsers(userData, dispatch),
     onSuccess: (data) => {
+       
       if (data.message === 'Login successful!') {
-          dispatch(fetchCartItems());
-          dispatch(fetchWishlist());
-          console.log('Login successful');
-          console.log("data", data);
+          if(data.admin){ 
+            dispatch(authActions.setAdmin(true));
+          } else {
+            dispatch(fetchCartItems());
+            dispatch(fetchWishlist());
+            console.log('Login successful');
+            console.log("data", data);
+            // dispatch(authActions.login(data.user_id));
+            dispatch(authActions.login());
+          }
+          
+          
         
-          // dispatch(authActions.login(data.user_id));
-          dispatch(authActions.login());
+         
         navigate("/");
       } else {
         setErrors({ email: data.error });
@@ -34,6 +47,31 @@ function LoginPage() {
       setErrors({ email: error.message });
     }
   });
+
+  const mutateLogout = useMutation({
+    mutationFn: logoutUser,
+    onSuccess: () => {
+
+        console.log('Logout successful');
+        // dispatch(fetchWishlist());
+        dispatch(clearCart());
+        dispatch(clearWishList());
+        // Dispatch Redux action to update auth state
+        dispatch(authActions.logout());
+
+        // Remove the isAuth value from local storage
+        localStorage.removeItem('isAuthenticated');
+        dispatch(clearUserId());
+        // dispatch(fetchCartItems());
+
+        // Optionally redirect to the home page or login page
+        navigate('/login');
+    },
+    onError: (error) => {
+        console.error('Logout failed:', error);
+        alert('Failed to log out. Please try again.');
+    }
+});
 
   function validateLogin(data) {
     let formErrors = {};
@@ -58,10 +96,22 @@ function LoginPage() {
       setErrors(formErrors);
       return;
     }
+    if (isAdmin || isAuth) {
+      console.log('isAdmin logggouttttttttttttt', isAdmin);
+      mutateLogout.mutate();
+    }
+    console.log('data otttttttttttttt');
+    // dispatch(clearCart());
+    // dispatch(clearWishList());
+    // dispatch(clearUserId());
+    // dispatch(authActions.logout())
 
     loginMutation.mutate(data);
   }
 
+ 
+
+ 
 
   
 
