@@ -12,7 +12,7 @@ class Cart(db.Model):
     updated_at = db.Column(db.DateTime(timezone=True), onupdate=func.now())
     
     user = db.relationship('User', back_populates='cart')
-    items = db.relationship('CartItems', back_populates='cart', lazy=True)
+    items = db.relationship('CartItems', back_populates='cart', lazy=True, cascade='all, delete-orphan')
 
     def __init__(self, total_price, status, user_id):
         self.total_price = total_price
