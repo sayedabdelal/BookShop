@@ -5,7 +5,7 @@ shop = Blueprint('shop', __name__)
 
 @shop.route('/shop', methods=['GET'])
 def shop_route():
-    books = Book.query.all()
+    books = Book.query.order_by(Book.id.desc()).all()
     return jsonify([{
         "id": book.id,
         "title": book.title,
