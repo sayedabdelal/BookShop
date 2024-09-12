@@ -10,12 +10,14 @@ import { useRouteLoaderData, json } from 'react-router-dom';
 export default function ShopDescritpion() {
   const data = useRouteLoaderData("shop-details");
   console.log('datassssssss:', data);
-
+  const img =  data.image?.startsWith("http") || data.image?.startsWith("data")
+  ? data.image
+  : `/${data.image || "noavatar.png"}`;
   return (
     <>
       <section className="product-section">
         <div className="product-image">
-          <img src={`/${data.image}`} alt="Product Image" />
+          <img src={img} alt="Product Image" />
         </div>
         <div className="product-details">
           <h1 className="product-title">{data.title}</h1>

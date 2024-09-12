@@ -3,11 +3,12 @@
   align-items: center;
   padding: 20px;
   max-width: 800px;
-  margin: auto;
+  margin: 5rem auto 0;
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   flex-wrap: wrap; /* Allow wrapping on smaller screens */
+  /* margin-top: 5rem; */
 }
 
 .product-image {
@@ -115,6 +116,7 @@
   .product-section {
     flex-direction: column; /* Stack the image and details on top of each other */
     text-align: center;
+    margin: 5rem 4rem 2rem;
   }
 
   .product-image {

@@ -17,6 +17,7 @@
     background-color: var(--container-color);
     border: 2px solid var(--border-color);
     padding-inline: 1rem;
+    margin-bottom: 1rem;
   }
   
   .search-icon {
@@ -39,3 +40,10 @@
     cursor: pointer;
   }
   
+
+@media (max-width: 500px) {
+  .search__form {
+    margin: 2rem 2rem;
+  }
+   
+}

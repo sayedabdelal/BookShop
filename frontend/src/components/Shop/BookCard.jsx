@@ -28,6 +28,7 @@ function BookCard({ imgSrc, title, discountPrice, originalPrice, rating, shopId,
     const dispatch = useDispatch();
 
     const isAuth = useSelector(state => state.auth.isAuthenticated);
+    const isAdmin = useSelector(state => state.auth.isAdmin);
 
     // made a cart object
     madeObject(shopId, cart_item_id)
@@ -194,11 +195,12 @@ function BookCard({ imgSrc, title, discountPrice, originalPrice, rating, shopId,
 
     function handleAddToCart() {
         let cartId = cartObject[shopId];
-        if (!isAuth) {
+        if (!isAuth || isAdmin) {
             navigate('/login');
             return
         }
 
+        console.log(isAuth, "dddddddddddddddddddddddddddd")
         if (inCart && isAuth) {
 
 
@@ -230,10 +232,15 @@ function BookCard({ imgSrc, title, discountPrice, originalPrice, rating, shopId,
         e.preventDefault();
         navigate(`/shop/${shopId}`);
     }
+    const img =  imgSrc?.startsWith("http") || imgSrc?.startsWith("data")
+        ? imgSrc
+        : `/${imgSrc || "noavatar.png"}`;
+
 
     return (
         <a className="new__card swiper-slide">
-            <img src={`/${imgSrc}`} alt={title} className="new__img" />
+            {/* <img src={`/${imgSrc}`} alt={title} className="new__img" /> */}
+            <img src={img} alt="Image" className="new__img" />;
 
             <div className="add-card">
                 <h3 className="new__title">{title}</h3>

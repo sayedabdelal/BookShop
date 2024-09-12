@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 // HomeTitle Component
 const HomeTitle = () => (
     <div className="home__data">
@@ -10,9 +12,9 @@ const HomeTitle = () => (
         books with all possible categories, take advantage of the 50% discount
         and much more.
       </p>
-      <a href="#" className="button">
+      <Link to='shop' className="button">
         Explore Now
-      </a>
+      </Link>
     </div>
   );
 export default HomeTitle;

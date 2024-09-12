@@ -1,8 +1,8 @@
 import React from 'react';
-import testImage1 from '../../assets/img/testimonial-perfil-1.png';
-import testImage2 from '../../assets/img/testimonial-perfil-2.png';
-import testImage3 from '../../assets/img/testimonial-perfil-3.png';
-import testImage4 from '../../assets/img/testimonial-perfil-4.png';
+import testImage1 from '../../assets/imges/testimonial-perfil-1.png';
+import testImage2 from '../../assets/imges/testimonial-perfil-2.png';
+import testImage3 from '../../assets/imges/testimonial-perfil-3.png';
+import testImage4 from '../../assets/imges/testimonial-perfil-4.png';
 
 import './Testimonial.css';
 import TestimonialCard from './TestimonialCard';
