@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from backend import db, create_app
+from backend import db
 from ..models.book import Book
 
 book = Blueprint('book', __name__)
@@ -20,10 +20,11 @@ def get_book(id):
 #     else:
 #         return jsonify({"message": "Book not found"}), 404
 
-@book.route('/book', methods=['POST'])
+@book.route('/product', methods=['POST'])
 def create_book():
     # Parse the JSON data from the request
     data = request.get_json()
+    print(data)
     # Validate the data
     if not all(key in data for key in ['title', 'author', 'price', 'description']):
         return jsonify({"error": "Missing required fields"}), 400
@@ -31,7 +32,7 @@ def create_book():
     new_book = Book(
         title=data['title'],
         author=data['author'],
-        image=data.get('image', 'default.jpg'),
+        image=data.get('img', 'default.jpg'),
         price=data['price'],
         discountPrice=data.get('discountPrice'),
         description=data['description'],
@@ -47,7 +48,10 @@ def create_book():
     # Return a success response
     return jsonify({"message": "Book created successfully", "book": new_book.to_dict()}), 201
 
-@book.route('/book/<int:book_id>', methods=["DELETE"])
+
+
+
+@book.route('/products/<int:book_id>', methods=["DELETE"])
 def delete_book(book_id):
     book = Book.query.get(book_id)
     if not book:
