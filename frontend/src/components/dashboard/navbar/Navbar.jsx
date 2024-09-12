@@ -6,8 +6,14 @@ import notificationsIcon from "../../../assets/imges/notifications.svg"; // Stat
 import settingsIcon from "../../../assets/imges/setting.svg"; 
 
 import logo from "../../../assets/img/bookLogo.jpg";
+import { useSelector } from "react-redux";
+
+import { Link } from "react-router-dom";
+
 
 const Navbar = () => {
+  const isAuth = useSelector((state) => state.auth.isAuthenticated);
+  const isAdmin = useSelector((state) => state.auth.isAdmin);
   return (
     <div className="navbar">
       <div className="logo">
@@ -16,8 +22,14 @@ const Navbar = () => {
       </div>
       <div className="icons">
         {/* Use imported SVG components */}
-        <img src={settingsIcon} className="icon"  />
-        <img src={AppIcon} className="icon" alt=""/> 
+        {/* <img src={settingsIcon} className="icon"  /> */}
+        {/* <img src={AppIcon} className="icon" alt=""/>  */}
+        {(isAuth || isAdmin) && (
+          <Link to='/'>
+                <i class="ri-home-2-line home"></i>
+          </Link>
+          
+        )}
 
         {/* Use static image imports */}
         <img src={expandIcon} className="icon" alt="Expand" />

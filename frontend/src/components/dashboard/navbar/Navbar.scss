@@ -32,6 +32,21 @@
           display: none;
         }
       }
+      .home {
+        font-size: 24px;       
+        color: #4cafa3;        
+        padding: 10px;          
+        border: 2px solid #4cafac;  
+        border-radius: 50%;    
+        transition: all 0.3s ease;   
+      }
+      
+      .home:hover {
+        background-color: #4cafac;   
+        color: white;                
+        transform: scale(1.1);       
+      }
+      
   
       .notification {
         position: relative;
