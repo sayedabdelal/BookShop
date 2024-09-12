@@ -1,4 +1,4 @@
-import "./navbar.scss";
+import "./Navbar.scss";
 import SearchIcon  from "../../../assets/imges/search.svg"; // Import SVG as React component
 import AppIcon from "../../../assets/imges/app.svg";       // Import SVG as React component
 import expandIcon from "../../../assets/imges/expand.svg";       // Static asset
