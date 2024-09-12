@@ -240,7 +240,7 @@ function BookCard({ imgSrc, title, discountPrice, originalPrice, rating, shopId,
     return (
         <a className="new__card swiper-slide">
             {/* <img src={`/${imgSrc}`} alt={title} className="new__img" /> */}
-            <img src={img} alt="Image" className="new__img" />;
+            <img src={img} alt="Image" className="new__img" />
 
             <div className="add-card">
                 <h3 className="new__title">{title}</h3>
@@ -296,6 +296,3 @@ export default BookCard;
 
 // use redux tolket to store cart_Item_Id shopdID when add to cart dispatch cart_Item_Id to store when
 // remove from cart retrun cart_Item_Id to mutate and remove from cart
-
-
-
