@@ -49,7 +49,7 @@ def create_user():
     new_user = User(fname=name, email=email, password=password)
     db.session.add(new_user)
     db.session.commit()
- 
+
     return jsonify({
         'message': 'New user created, user now can login',
         'created_at': datetime.now()
