@@ -11,7 +11,13 @@ admin = Blueprint('admin', __name__)
 
 @admin.route('/admin_get_users', methods=['GET'])
 def clients_emails():
-    '''Return all data of users except admain'''
+    '''Retrieve all user data except for the admin user.
+
+    This endpoint fetches all users from the database excluding the admin user. The result is formatted to include user ID, name, email, and the current timestamp.
+
+    Returns:
+        Response: A JSON object containing a list of users with their ID, name, email, and creation timestamp. Status code 200 on success.
+    '''
     users = User.query.filter(User.email != 'admin@gmail.com').all()
     users = [{'id': user.id, 'name': user.fname, 'email': user.email, 'created_at': datetime.now()} for user in users]
     
@@ -20,7 +26,13 @@ def clients_emails():
 
 @admin.route('/admin_create_user', methods=['GET', 'POST'])
 def create_user():
-    '''allow admin to create users'''
+    '''Create a new user in the database.
+
+    This endpoint allows an admin to create a new user by providing necessary details. It checks if the provided email is already in use, validates the input, and adds the new user to the database.
+
+    Returns:
+        Response: A JSON object containing a success message and the creation timestamp. Status code 201 on success. If validation fails, returns an error message with status code 400.
+    '''
     data = request.get_json()
     name = data.get('name')
     email = data.get('email')
@@ -28,7 +40,7 @@ def create_user():
     verified = data.get('verified')
     image = data.get('image')
 
-    if not name and not email and verified:
+    if not name or not email or not verified:
         return jsonify({'error': 'All fields are required'}), 400
 
     if User.query.filter_by(email=email).first():
@@ -44,9 +56,18 @@ def create_user():
     }), 201
 
 
-
 @admin.route('/users/<string:user_id>', methods=["DELETE"])
 def delete_user(user_id):
+    '''Delete a user and associated data.
+
+    This endpoint deletes a user by their ID. It also removes any associated cart, cart items, and wishlist items before deleting the user record from the database.
+
+    Args:
+        user_id (str): The ID of the user to be deleted.
+
+    Returns:
+        Response: A JSON object containing a success message. Status code 200 on success. If the user is not found, returns an error message with status code 404.
+    '''
     user = User.query.get(user_id)
     if not user:
         return jsonify({"error": "User not found"}), 404
