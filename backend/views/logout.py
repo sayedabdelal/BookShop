@@ -1,9 +1,20 @@
-from flask import Blueprint, session, jsonify, redirect, url_for
+from flask import Blueprint, session, jsonify
 
 logout = Blueprint('logout', __name__)
 
 @logout.route('/logout', methods=['POST', 'GET'])
 def logout_view():
+    '''Log out the current user or admin and clear the session.
+
+    This route handles logging out users or administrators by clearing their 
+    respective session data. Depending on the session status, it either logs 
+    out an admin, a regular user, or returns an error if no user is logged in.
+
+    Returns:
+        Response:
+            - **200 OK**: If logout is successful, returns a JSON object with a success message.
+            - **401 Unauthorized**: If no user is logged in.
+    '''
     print(f"Session before logout: {session}")
 
     if 'admin_id' in session:
