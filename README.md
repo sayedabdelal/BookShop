@@ -2,6 +2,15 @@
 
 BookShop is an e-commerce application for browsing and purchasing books. The project includes a Flask backend for handling API requests and a React frontend for the user interface.
 
+**Deployed Site**: [Live Demo](https://example.com)
+
+**Blog Article**: [Final Project Blog](https://example.com/blog)
+
+**Author(s)**:  
+- Kareem Hany ([LinkedIn](https://www.linkedin.com/in/youssef-ahmed-046072254/)) - Backend Developer  
+- Youssef Ahmed ([LinkedIn](https://www.linkedin.com/in/kareemhany/)) - Backend Developer  
+- Sayed Sayed ([LinkedIn](https://www.linkedin.com/in/sayed-abdelaal-22144024b/)) - Frontend Developer  
+
 ## Table of Contents
 
 - [Features](#features)
