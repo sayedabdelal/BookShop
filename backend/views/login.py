@@ -1,5 +1,14 @@
 from flask import Blueprint, request, jsonify, session
 from backend.models.user import User
+from backend import db
+
+import os
+import pathlib
+import requests
+from google.oauth2 import id_token
+from google_auth_oauthlib.flow import Flow
+from pip._vendor import cachecontrol
+import google.auth.transport.requests
 
 login = Blueprint('login', __name__)
 
@@ -73,3 +82,67 @@ def check_session():
             }), 200
     else:
         return jsonify({'isAuthenticated': False}), 401
+
+
+#todo login by google
+
+GOOGLE_CLIENT_ID = "492815053989-css65qnm2e4r9k4ek3s3qndl2fk15r3t.apps.googleusercontent.com"
+client_secrets_file = os.path.join(pathlib.Path(__file__).parent, "../client_secret.json")
+
+flow = Flow.from_client_secrets_file(
+    client_secrets_file=client_secrets_file,
+    scopes=["https://www.googleapis.com/auth/userinfo.profile", "https://www.googleapis.com/auth/userinfo.email", "openid"],
+    redirect_uri="http://127.0.0.1:5000/callback"
+)   
+
+@login.route('/oauth-login', methods=['POST','GET'])
+def oauth_login():
+    '''Initiate Google OAuth login'''
+    authorization_url, state = flow.authorization_url()
+    session["state"] = state
+    return jsonify({'authorization_url': authorization_url}), 200
+
+
+@login.route("/callback", methods=['GET'])
+def callback():
+    '''Handle Google OAuth callback'''
+    state_from_request = request.args.get("state")
+    if session.get("state") != state_from_request:
+        return jsonify({'error': 'CSRF Warning! State not equal in request and response.'}), 500
+
+    flow.fetch_token(authorization_response=request.url)
+
+    credentials = flow.credentials
+    request_session = requests.session()
+    cached_session = cachecontrol.CacheControl(request_session)
+    token_request = google.auth.transport.requests.Request(session=cached_session)
+
+    id_info = id_token.verify_oauth2_token(
+        id_token=credentials._id_token,
+        request=token_request,
+        audience=GOOGLE_CLIENT_ID
+    )
+
+    session["google_id"] = id_info.get("sub")
+    session["name"] = id_info.get("name")
+    session["email"] = id_info.get("email")
+    session["picture"] = id_info.get("picture")
+
+    # Check if user exists in your database
+    user = User.query.filter_by(email=id_info.get("email")).first()
+    if not user:
+        # Create a new user in the database
+        new_user = User(fname=id_info.get("name"), email=id_info.get("email"), password="")
+        db.session.add(new_user)
+        db.session.commit()
+        session['user_id'] = new_user.id
+    else:
+        session['user_id'] = user.id
+
+    return jsonify({
+        'message': 'Google OAuth login successful!',
+        'google_id': session["google_id"],
+        'user_id': session.get('user_id'),
+        'name': session["name"],
+        'picture': session["picture"]
+    }), 200
