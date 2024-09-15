@@ -1,7 +1,9 @@
 import bcrypt
 from flask import Blueprint, request, jsonify
+from flask_mail import Message
 from backend.models.user import User
-from backend import db
+from backend import db, mail
+
 
 reset = Blueprint('reset', __name__)
 
@@ -30,6 +32,44 @@ def reset_password_request():
     
     # Get new token for this user
     token = user.get_reset_token()
+    reset_link = f'http://localhost:5173/forgot-password/{token}'
+    html_content = f"""
+    <html>
+    <head>
+    <style>
+    body {{ font-family: Arial, Helvetica, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; }}
+    .container {{ width: 100%; max-width: 600px; margin: 0 auto; padding: 20px; background: #ffffff; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }}
+    h2 {{ color: #333; }}
+    p {{ font-size: 16px; color: #555; }}
+    a.button {{ display: inline-block; padding: 12px 25px; font-size: 16px; color: #fff; background-color: #007bff; text-decoration: none; border-radius: 4px; }} 
+    a.button:hover {{ background-color: #0056b3; }}
+    .footer {{ margin-top: 20px; font-size: 14px; color: #777; }}
+    </style>
+    </head>
+    <body>
+    <div class="container">
+    <h2>Password Reset Request</h2>
+    <p>Dear {user.email},</p>
+    <p>We received a request to reset your password on <strong>BookCorner</strong>. If you requested this change, please click the button below to reset your password:</p>
+    <p><a href="{reset_link}" class="button">Reset Password</a></p>
+    <p style="font-size: 14px; color: #555;">This link will expire in 10 minutes.</p>
+    <p>If you did not request a password reset, please ignore this email. Your password will not be changed.</p>
+    <div class="footer">
+    <p>Thank you,<br>The BookCorner Team</p>
+    <p>For any assistance, please contact us at <a href="mailto:support@bookcorner.com">support@bookcorner.com</a></p>
+    </div>
+    </div>
+    </body>
+    </html>
+    """
+
+    msg = Message(
+        subject='Password Reset Request',
+        recipients=[email],
+        html=html_content
+    )
+
+    mail.send(msg)
 
     # Pass the token to the frontend
     return jsonify({
