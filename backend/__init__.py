@@ -5,9 +5,11 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 from flask_session import Session
+from flask_mail import Mail
 
 db = SQLAlchemy()
 session = Session()
+mail = Mail()
 
 # Load environment variables from the .env file
 load_dotenv()
@@ -29,8 +31,9 @@ def create_app():
     app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER')
     os.environ["OAUTHLIB_INSECURE_TRANSPORT"] = "1"  #! Allow HTTP requests, not HTTPS
 
-    session.init_app(app)
     db.init_app(app)
+    session.init_app(app)
+    mail.init_app(app)
 
     from .views.login import login as login_blueprint
     from .views.register import register as register_blueprint
