@@ -20,6 +20,8 @@ BookShop is an e-commerce application for browsing and purchasing books. The pro
 - [Contributing](#contributing)
 - [License](#license)
 - [Screenshots](#screenshots)
+- [Admin access](#admin-access-for-demo-purposes)
+- [Story and Technical Details](#story-and-technical-details)
 
 ## Features
 
