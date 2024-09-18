@@ -125,6 +125,15 @@ This project is licensed under the MIT License. See the [LICENSE](https://github
  *Admin Product Management*
 ![Adminproduct Screenshot](./assets/admin_product.png)
 
+## Admin Access (For Demo Purposes)
+
+If you'd like to explore the admin dashboard, you can use the following credentials:
+
+- **Email**: admin@gmail.com
+- **Password**: admin1234
+
+> **Note**: These credentials are only for demo purposes and should not be used in production environments.
+
 
 
 ## Story and Technical Details
