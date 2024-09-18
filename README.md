@@ -127,6 +127,9 @@ This project is licensed under the MIT License. See the [LICENSE](https://github
  *Admin Product Management*
 ![Adminproduct Screenshot](./assets/admin_product.png)
 
+*Database Diagram*
+![Database Diagram](./assets/database_diagram.png)
+
 ## Admin Access (For Demo Purposes)
 
 If you'd like to explore the admin dashboard, you can use the following credentials:
