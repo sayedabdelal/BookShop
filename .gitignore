@@ -27,3 +27,4 @@ __pycache__/
 *.pyc
 flask_session/
 .vite/
+.env
