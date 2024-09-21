@@ -40,7 +40,7 @@ BookShop is an e-commerce application for browsing and purchasing books. The pro
 - **Authentication:** Session 
 - **Dependency Management:** pip, virtualenv
 
-## Installation
+## Installation (Running Locally)
 
 1. **Clone the Repository**
 
@@ -49,30 +49,56 @@ BookShop is an e-commerce application for browsing and purchasing books. The pro
    cd BookShop
    ```
 
-2. **Install the backend dependencies**
+2. **Install** `virtualenv` (if not already installed)
+   ```bash
+   pip install virtualenv
+   ```
+3. **Create a Virtual Environment**
+   Navigate to your project directory and create a virtual environment:
+
+   ```bash
+   python3 -m venv venv
+   ```
+4. **Activate the Virtual Environment**
+   To activate the virtual environment:
+   ```bash
+   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+   ```
+
+5. **Install the backend dependencies**
 
    ```bash
    pip install -r requirements.txt
    ```
 
-3. **Install frontend dependencies**
+6. **Set Up Environment Variables**
+Copy the `.env.example` file to `.env` and fill in the necessary environment variables.
+
+   ```bash
+   cp backend/.env.example backend/.env
+   ```
+   >**Note**: The .env file is used to configure the backend. Ensure you provide the required values for the environment variables listed in the .env.example.
+
+
+7. **Install frontend dependencies (Terminal 1)**
    ```bash
    cd frontend
    npm install
    ```
 
-4. **Run the frontend development server**
+8. **Run the frontend development server**
    ```bash
    npm run dev
    ```
 
-5. **Run the backend server**
+9. **Run the backend server (Terminal 2)**
+   
+   open new terminal and run this command in BookShop directory 
    ```bash
-   cd ..
-   ./run_backend.py
+   python3 run_backend.py
    ```
 
-6. **Open the webiste**
+10. **Open the webiste**
 
       Navigate to http://localhost:5173/ in your browser.
 
