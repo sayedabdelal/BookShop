@@ -92,15 +92,15 @@ function Wishlist() {
                     {item.discountPrice ? (
                       <>
                         <span className="item-discount">
-                          ${item.discountPrice.toFixed(2)}
+                          ${item.discountPrice}
                         </span>
                         <span className="item-original">
-                          ${item.price.toFixed(2)}
+                          ${item.price}
                         </span>
                       </>
                     ) : (
                       <span className="item-discount">
-                        ${item.price.toFixed(2)}
+                        ${item.price}
                       </span>
                     )}
                   </div>
