@@ -30,6 +30,7 @@ import Layout from "./pages/dashboard/Layout.jsx";
 import Users from "./pages/dashboard/users/Users.jsx";
 import Products from "./pages/dashboard/products/Products.jsx";
 import ErrorRoute from "./UI/ErrorRoute.jsx";
+import RestPasswordPage from "./components/forgotPassword/RestPasswordPage.jsx";
  
 
 const router = createBrowserRouter([
@@ -128,12 +129,22 @@ const router = createBrowserRouter([
      
   {
     path: "forgot-password",
-    element: <ForgotPasswordPage />,
+    children: [ 
+      {
+        path: "",
+        element: <ForgotPasswordPage />,
+      },
+      {
+        path : "reset/:token",
+        element: <RestPasswordPage />,
+      }
+    ]
+    
   },
-  {
-    path: "*",
-    element: <ErrorRoute />,
-  }
+  // {
+  //   path: "*",
+  //   element: <ErrorRoute />,
+  // }
   
   // {
   //   path: 'discount',

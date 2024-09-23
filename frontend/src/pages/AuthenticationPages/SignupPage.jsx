@@ -153,6 +153,15 @@ function SignupPage() {
           {isError && (
             <div className="error">{error.message}</div>
           )}
+           {/* Social Media Login Options */}
+           <div className="social-login">
+                    <p>Or log in with</p> <a href="#" className=" google">Google</a>
+                    {/* <div className="social-icons">
+                        <a href="#" className="social-btn facebook">Facebook</a>
+                        <a href="#" className="social-btn twitter">Twitter</a>
+                        <a href="#" className="social-btn google">Google</a>
+                    </div> */}
+          </div>
         </form>
         <Link
           to="../"

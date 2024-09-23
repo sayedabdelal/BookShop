@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { fetchBooks } from '../../util/http.js';
 import LoadingIndicator from '../../UI/LoadingIndicator.jsx';
 import ErrorPage from '../../UI/ErrorPage.jsx';
@@ -24,6 +24,9 @@ function Shop() {
     queryFn: fetchBooks,
   });
 
+  // useEffect(() => {
+  //   refetc();
+  // }, [refetch]);
   const cartItems = useSelector((state) => state.cart.items || []);
   const wishListItem = useSelector((state) => state.wishlist.items || []);
 

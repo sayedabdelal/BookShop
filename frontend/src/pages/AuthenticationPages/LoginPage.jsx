@@ -150,6 +150,15 @@ function LoginPage() {
           <Link to="/forgot-password" className="login__forgot">Forgot your password?</Link>
           <button type="submit" className="login__button button">Log In</button>
         </div>
+         {/* Social Media Login Options */}
+           <div className="social-login">
+                    <p>Or log in with</p> <a href="#" className=" google">Google</a>
+                    <div className="social-icons">
+                        {/* <a href="#" className="social-btn facebook">Facebook</a> */}
+                        {/* <a href="#" className="social-btn twitter">Twitter</a> */}
+                        
+                    </div>
+          </div>
       </form>
      
 

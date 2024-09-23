@@ -10,7 +10,7 @@
     z-index: var(--z-fixed);
     backdrop-filter: blur(16px);
     align-items: center;
-    padding: 1.5rem;
+    padding: .2rem;
     transition: top 0.4s;
     text-align: center;
 }
@@ -112,7 +112,7 @@
     z-index: var(--z-fixed);
     backdrop-filter: blur(16px);
     align-items: center;
-    padding: 1.5rem;
+    padding: .2rem;
     transition: top 0.4s;
     text-align: center;
 }
@@ -177,6 +177,64 @@
     color: var(--title-color);
     cursor: pointer;
 }
+
+ /* Social Media Login Styles */
+ .social-login {
+    text-align: center;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .social-login p {
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #555;
+  }
+  
+  .social-icons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .social-btn {
+    display: inline-block;
+    padding: 10px;
+    width: 80px;
+    text-align: center;
+    border-radius: 5px;
+    font-size: 14px;
+    color: white;
+    text-decoration: none;
+    transition: background-color 0.3s;
+  }
+  
+  .social-btn.facebook {
+    background-color: #3b5998;
+  }
+  
+  .social-btn.facebook:hover {
+    background-color: #2d4373;
+  }
+  
+  .social-btn.twitter {
+    background-color: #1da1f2;
+  }
+  
+  .social-btn.twitter:hover {
+    background-color: #0d8dec;
+  }
+  
+  .google {
+    margin-left: 1rem;
+    color: #1da1f2;
+  }
+  
+    .google:hover {
+        color: #c33d2e;
+         
+  }
 
 @media screen and (min-width: 1150px) {
   .signup {
