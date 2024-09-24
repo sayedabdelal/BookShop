@@ -4,13 +4,26 @@ import LoadingIndicator from '../../UI/LoadingIndicator.jsx';
 import ErrorPage from '../../UI/ErrorPage.jsx';
 import BookCard from './BookCard.jsx';
 import { useQuery } from "@tanstack/react-query";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchCartItems } from '../../store/cartSlice.js';
+import { fetchWishlist } from '../../store/wishlistSlice.js';
 import './Shop.css';
 import './Pagination.css';
 import { ToastContainer } from 'react-toastify';
 import './Search.css';
 
+const fetchBooksWithDelay = async () => {
+  return new Promise((resolve) => {
+    setTimeout(async () => {
+      const result = await fetchBooks(); 
+      resolve(result);
+    }, 10);  
+  });
+};
+
 function Shop() {
+  const dispatch = useDispatch();
+
   // Pagination state
   const [currentPage, setCurrentPage] = useState(1);
   const booksPerPage = 20; // Set the number of books per page
@@ -18,54 +31,47 @@ function Shop() {
   // Search state
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Fetch existing books
-  const { data: books, isError, isLoading, error } = useQuery({
+  // Fetch books
+  const { data: books, isError: isBooksError, isLoading: isBooksLoading,isPending, error: booksError, isFetched } = useQuery({
     queryKey: ["books"],
-    queryFn: fetchBooks,
+    queryFn: fetchBooksWithDelay,
   });
+  
+   
 
-  // useEffect(() => {
-  //   refetc();
-  // }, [refetch]);
-  const cartItems = useSelector((state) => state.cart.items || []);
-  const wishListItem = useSelector((state) => state.wishlist.items || []);
+ 
+  const { items: cartItems, loading: cartLoading, error: cartError } = useSelector((state) => state.cart);
+  const { items: wishlistItems, loading: wishlistLoading, error: wishlistError } = useSelector((state) => state.wishlist);
 
-  if (isLoading) {
+  // Show loading state if any fetch request is loading
+  if (isBooksLoading || cartLoading || wishlistLoading || isPending) {
     return <LoadingIndicator />;
   }
 
-  if (isError) {
-    let errorMessage = "Failed to load books. Please try again later.";
-    let errorTitle = "Failed to Load Books";
-
-    if (error?.message) {
-      try {
-        const parsedError = JSON.parse(error.message);
-        errorTitle = `Error ${parsedError.status}`;
-        errorMessage = `${parsedError.statusText}: ${parsedError.info}`;
-      } catch {
-        errorMessage = error.message;
-      }
-    }
+  // Handle errors for books, cart, or wishlist
+  if (isBooksError || cartError || wishlistError) {
+    const errorMessage = booksError?.message || cartError || wishlistError || "Failed to load data. Please try again later.";
+    const errorTitle = "Failed to Load Shop Data";
 
     return <ErrorPage title={errorTitle} message={errorMessage} />;
   }
 
+  // Map cart and wishlist items
   const cartItemsMap = new Map(cartItems.map(item => [item.book_id, item]));
-  const formattedWishListItems = new Map(wishListItem.map(item => [item.book_id, item]));
+  const wishlistItemsMap = new Map(wishlistItems.map(item => [item.book_id, item]));
 
   // Combine books with cart and wishlist status
   const booksStatus = books.map(book => {
     const cartItem = cartItemsMap.get(book.id);
-    const isInWishList = formattedWishListItems.has(book.id);
+    const isInWishList = wishlistItemsMap.has(book.id);
 
     return {
       ...book,
       isInCart: !!cartItem,
       quantityInCart: cartItem?.quantity || 0,
       cartItemId: cartItem?.id || null,
-      isInWishList: isInWishList,
-      wishListId: isInWishList ? formattedWishListItems.get(book.id).id : null,
+      isInWishList,
+      wishListId: isInWishList ? wishlistItemsMap.get(book.id).id : null,
     };
   });
 

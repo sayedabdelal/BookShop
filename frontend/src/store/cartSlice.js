@@ -5,11 +5,8 @@ import { useSelector } from 'react-redux';
 export const fetchCartItems = createAsyncThunk(
   'cart/fetchCartItems',
   async (_, { rejectWithValue }) => {
-    // Get user ID 
-   
-    const userId = localStorage.getItem('user_id');
 
-    // console.log('userIredsux:', userId);
+    const userId = localStorage.getItem('user_id');
     if (!userId) {
       return rejectWithValue('User ID not found');
     }
@@ -19,9 +16,9 @@ export const fetchCartItems = createAsyncThunk(
     if (!response.ok) {
       return rejectWithValue(`HTTP error: ${response.status}`);
     }
-    
-    console.log('responselog:', response);
-    return  await response.json(); // Return cart items
+    const data = await response.json();
+    return data;
+     
   }
 );
 
@@ -30,13 +27,14 @@ const initialState = {
   status: 'idle', // idle, loading, succeeded, failed
   error: null,
 };
+ 
 
 const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
     addItemToCart: (state, action) => {
-       
+     
       const itemInCart = state.items.find(item => item.id === action.payload.id);
       if (itemInCart) {
         itemInCart.quantity += 1;
@@ -45,11 +43,10 @@ const cartSlice = createSlice({
       }
     },
     removeItemFromCart: (state, action) => {
-      
-      state.items = state.items.filter(item => item.id !== action.payload);
+       
+      state.items = state.items.filter(item => item.book_id !== action.payload);
     },
     increaseQuantity: (state, action) => {
-      // console.log('action.payload:', action.payload);
       const item = state.items.find(item => item.id === action.payload);
       if (item) {
         item.quantity += 1;

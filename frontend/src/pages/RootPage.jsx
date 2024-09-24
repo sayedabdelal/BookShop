@@ -1,4 +1,4 @@
-import { Outlet, Link, useNavigate } from "react-router-dom";
+import { Outlet, Link, useNavigate, useLocation } from "react-router-dom";
 import LI from "./Header/LI";
 import "./Header/Header.css";
 import Footer from "../components/Footer";
@@ -12,17 +12,13 @@ import { fetchCartItems, clearCart } from '../store/cartSlice';
 import { useEffect } from "react";
 import { clearUserId } from "../store/userSlice";
 import { fetchWishlist, clearWishList } from "../store/wishlistSlice";
-
 import DarkModeToggle from "../UI/DarkModeToggle";
-
-
-// import {fetchCartItems} from '../store/cartSlice';
-// import {fetchWishlist} from '../store/wishlistSlice';
 
 
 function RootPage() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const location = useLocation();
     const isAuth = useSelector(state => state.auth.isAuthenticated);
     const isAdmin = useSelector(state => state.auth.isAdmin);
     // Access the cart state from Redux
@@ -36,23 +32,20 @@ function RootPage() {
     const totalWishlistItems = wishlistItems.length;
 
     const darkMode = useSelector((state) => state.theme.darkMode);
-    console.log('ROOOOOOOt', darkMode);
+    
 
 
 
-    // const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
-
-
-    // Function to check session status
+    
     const checkSession = async () => {
         try {
             const response = await fetch("http://127.0.0.1:5000/check-session", {
                 credentials: 'include', // Send cookies along with request
             });
-            console.log("response checkSession", response);
+            
             if (response.ok) {
                 const data = await response.json();
-                console.log("data", data)
+               
 
                 if (data.isAuthenticated) {
                     // If authentic  if(isAdmin){ 
@@ -108,7 +101,7 @@ function RootPage() {
             dispatch(fetchCartItems());
             dispatch(fetchWishlist());
         }
-    }, [dispatch, isAuth])
+    }, [dispatch, isAuth, location])
 
 
 
@@ -120,20 +113,11 @@ function RootPage() {
     const mutation = useMutation({
         mutationFn: logoutUser,
         onSuccess: () => {
-
-            console.log('Logout successful');
-            // dispatch(fetchWishlist());
             dispatch(clearCart());
             dispatch(clearWishList());
-            // Dispatch Redux action to update auth state
             dispatch(authActions.logout());
-
-            // Remove the isAuth value from local storage
             localStorage.removeItem('isAuthenticated');
             dispatch(clearUserId());
-            // dispatch(fetchCartItems());
-
-            // Optionally redirect to the home page or login page
             navigate('/login');
         },
         onError: (error) => {
