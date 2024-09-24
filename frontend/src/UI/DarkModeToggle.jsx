@@ -5,7 +5,7 @@ import { toggleDarkMode } from '../store/themeSlice';
  
 
 const DarkModeToggle = () => {
-    console.log('DarkModeToggle');
+     
   const dispatch = useDispatch();
   const darkMode = useSelector((state) => state.theme.darkMode);
 

@@ -16,11 +16,11 @@ const loadStateFromLocalStorage = () => {
 // Save state to local storage
 const saveStateToLocalStorage = (state) => {
   try {
-    console.log('Saving state to local storage:', state);
+   
     const serializedState = JSON.stringify(state);
     localStorage.setItem('theme', serializedState);
   } catch (err) {
-    // Handle write errors
+    
     console.error('Could not save state to local storage:', err);
   }
 };

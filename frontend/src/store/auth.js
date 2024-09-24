@@ -34,19 +34,16 @@ const authSlice = createSlice({
         login(state) {
             console.log("sttttttt", state)
             if (state.isAdmin) {
-                console.log('state.isAdmin', state.isAdmin);
+               
                 state.isAuthenticated = false;
                  localStorage.setItem('isAdmin', JSON.stringify(state.isAdmin));
             } else {
                 
                 state.isAuthenticated = true;
-                console.log('state.auth', state.isAuthenticated);  
+               
                 localStorage.setItem('isAuthenticated', JSON.stringify(true));  
             }
             
-            // state.isAdmin = action.payload.isAdmin || false;
-            // localStorage.setItem('isAuthenticated', JSON.stringify(true));
-            // localStorage.setItem('isAdmin', JSON.stringify(state.isAdmin));
         },
         logout(state) {
             state.isAuthenticated = false;
@@ -55,7 +52,7 @@ const authSlice = createSlice({
             localStorage.setItem('isAdmin', JSON.stringify(false));
         },
         setAdmin(state, action) {
-            console.log('action', action);
+         
             state.isAdmin = action.payload;
             state.isAuthenticated = false;
             localStorage.setItem('isAdmin', JSON.stringify(state.isAdmin));

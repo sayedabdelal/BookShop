@@ -13,6 +13,7 @@ function CartItems({ itemsCart }) {
   const cartMutation = useMutation({
     mutationFn: ({ action, productId, quantity, cartItemId }) =>
       addRemoveCart({ action, productId, quantity, cartItemId }),
+       
     onSuccess: (response) => {
       if (response && response.new_cart_item_id) {
         dispatch(addItemToCart({ ...response.product, id: response.shopId, cartItemId: response.new_cart_item_id }));

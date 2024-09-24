@@ -18,10 +18,10 @@ export const fetchWishlist = createAsyncThunk(
         const errorData = await response.json();
         return rejectWithValue(errorData.error || 'Something went wrong');
       }
-      console.log('responselog:', response);
+      
 
       const data = await response.json();
-      console.log('datacccccc:', data);
+     
       return data;  // Assuming the response contains { wishlist: [...] }
     } catch (error) {
       return rejectWithValue('Something went wrong');

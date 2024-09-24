@@ -1,15 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import NewImg1 from '../../assets/img/discount-book-2.png';
 import './ShopDescritpion.css'
 
 
-import { useRouteLoaderData, json } from 'react-router-dom';
 
+import { useRouteLoaderData, json } from 'react-router-dom';
 
 export default function ShopDescritpion() {
   const data = useRouteLoaderData("shop-details");
-  console.log('datassssssss:', data);
+ 
+ 
+
   const img =  data.image?.startsWith("http") || data.image?.startsWith("data")
   ? data.image
   : `/${data.image || "noavatar.png"}`;
