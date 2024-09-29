@@ -69,9 +69,7 @@ function Wishlist() {
     wishlistMutation.mutate({ action: 'remove', wishlistId });
   };
 
-
-
-
+   
   return (
     <div className="container-wish">
       <header>
@@ -82,38 +80,37 @@ function Wishlist() {
           <p className="empty-message">Your wishlist is empty.</p>
         ) : (
           <ul className="wishlist">
-            {allWishlist.map((item) => (
-              <li key={item.book_id} className="wishlist-item">
-                <img src={`/${item.image}`} alt={item.title} className="wishlist-image" />
-                <div className="item-details">
-                  <h2 className="item-title">{item.title}</h2>
-                  <p className="item-description">{item.description}</p>
-                  <div className="item-prices">
-                    {item.discountPrice ? (
-                      <>
-                        <span className="item-discount">
-                          ${item.discountPrice}
-                        </span>
-                        <span className="item-original">
-                          ${item.price}
-                        </span>
-                      </>
-                    ) : (
-                      <span className="item-discount">
-                        ${item.price}
-                      </span>
-                    )}
-                  </div>
+            {allWishlist.map((item) => {
+              const img = item.image?.startsWith("http") || item.image?.startsWith("data")
+                ? item.image
+                : `/${item.image || "noavatar.png"}`;
 
-                  <button
-                    className="remove-button"
-                    onClick={() => handleRemove(item.book_id)} // Correct ID used here
-                  >
-                    Remove
-                  </button>
-                </div>
-              </li>
-            ))}
+              return (
+                <li key={item.book_id} className="wishlist-item">
+                  <img src={img} alt={item.title} className="wishlist-image" />
+                  <div className="item-details">
+                    <h2 className="item-title">{item.title}</h2>
+                    <p className="item-description">{item.description}</p>
+                    <div className="item-prices">
+                      {item.discountPrice ? (
+                        <>
+                          <span className="item-discount">${item.discountPrice}</span>
+                          <span className="item-original">${item.price}</span>
+                        </>
+                      ) : (
+                        <span className="item-discount">${item.price}</span>
+                      )}
+                    </div>
+                    <button
+                      className="remove-button"
+                      onClick={() => handleRemove(item.book_id)} // Correct ID used here
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         )}
       </main>

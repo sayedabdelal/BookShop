@@ -130,8 +130,12 @@
   }
  }
 
+ /* new */
 @media (max-width: 767px) {
-  
+  .new__container { 
+    margin-left:  2rem  !important;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  }
   
 }
 

@@ -62,48 +62,50 @@ function CartItems({ itemsCart }) {
       cartMutation.mutate({ action: 'remove', cartItemId });
     }
   };
-
+  
   return (
     <div className="cart-items-section">
-      
       <h2 className="cart-title">Shopping Cart</h2>
       <div className="cart-items">
-        {itemsCart.map(item => (
-          <div key={item.id} className="cart-item">
-            <div className="item-image">
-              <img src={`/${item.image}`} alt={item.title} />
-            </div>
-            <div className="item-details">
-              <div className="item-name">{item.title}</div>
-              <div className="item-price">€{item.price}</div>
-              <div className="item-quantity">
-                <button
-                  className="quantity-btn"
-                  onClick={() => handleQuantityChange(item.id, -1)}
-                >
-                  -
-                </button>
-                <span className="quantity">{item.quantity}</span>
-                <button
-                  className="quantity-btn"
-                  onClick={() => handleQuantityChange(item.id, 1)}
-                >
-                  +
-                </button>
+        {itemsCart.map(item => {
+          const img = item.image?.startsWith("http") || item.image?.startsWith("data") 
+            ? item.image 
+            : `/${item.image || "noavatar.png"}`;
+          
+          return (
+            <div key={item.id} className="cart-item">
+              <div className="item-image">
+                <img src={img} alt={item.title} />
               </div>
+              <div className="item-details">
+                <div className="item-name">{item.title}</div>
+                <div className="item-price">€{item.price}</div>
+                <div className="item-quantity">
+                  <button
+                    className="quantity-btn"
+                    onClick={() => handleQuantityChange(item.id, -1)}
+                  >
+                    -
+                  </button>
+                  <span className="quantity">{item.quantity}</span>
+                  <button
+                    className="quantity-btn"
+                    onClick={() => handleQuantityChange(item.id, 1)}
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+              <button
+                className="remove-item-btn"
+                onClick={() => handleRemoveItem(item.id)}
+              >
+                Remove
+              </button>
             </div>
-            <button
-              className="remove-item-btn"
-              onClick={() => handleRemoveItem(item.id)}
-            >
-              Remove
-            </button>
-          </div>
-        ))}
+          );
+        })}
       </div>
-       
     </div>
   );
-}
-
-export default CartItems;
+}export default CartItems;

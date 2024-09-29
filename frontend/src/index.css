@@ -59,6 +59,8 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+  
 }
 
 body,
@@ -174,7 +176,8 @@ body.dark-theme {
 }
 
 .main {
-  overflow: hidden; /* For animation ScrollReveal */
+  /* overflow: hidden;  */
+  /* width: 100vw; */
 }
 
 
@@ -391,4 +394,13 @@ body.dark-theme {
   }
 }
 
+
+@media (max-width: 500px) {
+  .main {
+    width: 90vw;
+    /* margin: 0 auto; */
+    
+  }
+
+}
  

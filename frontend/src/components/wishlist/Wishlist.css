@@ -158,3 +158,9 @@ header h1 {
         margin-bottom: 10px;
     }
 }
+
+@media (max-width: 768px) { 
+    .wishlist-image { 
+        max-width: 140px;
+    }
+}

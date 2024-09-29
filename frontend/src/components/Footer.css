@@ -106,3 +106,14 @@
         margin-top: 6rem;
       }
   }
+
+
+  @media (max-width: 500px) {
+    .footer__data {
+      display: grid;
+      grid-template-columns: repeat(1, max-content);
+      justify-content: center;
+      gap: 3rem 2rem;
+    }
+    
+  }

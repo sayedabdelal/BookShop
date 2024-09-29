@@ -50,10 +50,17 @@ function Cart() {
   const handleRemoveItem = (id) => {
     dispatch(removeItemFromCart(id));
   };
+  console.log('allBooks', allBooks);
 
-  const subtotal = allBooks.reduce((acc, item) => acc + item.discountPrice * item.quantity, 0);
-  const shipping = 5.00; // Example shipping cost
+  const subtotal = allBooks.reduce((acc, item) => {
+  const price = item.discountPrice != null ? item.discountPrice : item.price;
+  return acc + price * item.quantity;
+}, 0);
+
+   
+  const shipping = 5.00;  
   const total = subtotal + shipping;
+  
 
   return (
     <div className="cart-container">

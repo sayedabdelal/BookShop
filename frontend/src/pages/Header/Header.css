@@ -128,7 +128,7 @@
       margin-inline: 1rem;
     }
     .nav__menu {
-      padding: 3rem;
+      /* padding: 3rem; */
     }
     .discount__img-1,
     .discount__img-2 {
@@ -320,3 +320,21 @@
     }
   } 
   
+
+@media (max-width: 400px) {
+  .header {
+    width: 100vw;
+     
+  }
+  .icon-number {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+  }
+   .container {
+    margin-top: 4px;
+   }
+  .nav__menu { 
+    width: 100vw;
+  }
+}

@@ -39,11 +39,22 @@
     color: var(--title-color);
     cursor: pointer;
   }
+
+  @media (max-width: 700px) {
+    .search__form {
+      margin: 2rem auto ;
+      width: 80vw;
+
+    }
+     
+  }
   
 
-@media (max-width: 500px) {
-  .search__form {
-    margin: 2rem 2rem;
+  @media (max-width: 500px) {
+    .search__form {
+      margin: 2rem 2rem ;
+
+    }
+     
   }
-   
-}
+
